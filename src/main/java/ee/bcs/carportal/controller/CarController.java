@@ -167,7 +167,11 @@ public class CarController {
     @Tag(name = "Mandatory")
     public String getRandomCarDetailedInfo() {
         int carId = new Random().nextInt(0, 5);
-        return getCarInfo(carId);
+        try {
+            return getCarInfo(carId);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     @GetMapping("/car/id/basic-info")
@@ -181,7 +185,21 @@ public class CarController {
         }
     }
 
-    private String getCarInfo(int carId) {
+    @GetMapping("/car/id/detailed-info")
+    @Tag(name = "Mandatory")
+    public String getCarDetailedInfoByCarId() {
+        int carId = 5;
+        try {
+            return getCarInfo(carId);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    private String getCarInfo(int carId) throws Exception {
+        if (carId > carModels.length-1 || carId < 0) {
+            throw new Exception(String.format("No car with id %d exists", carId));
+        }
         return String.format("Make: %s\nModel: %s\nFuel type: %s\nEmissions: %.2f\nPrice: €%d\n", manufacturers[carId],
                 carModels[carId], fuelTypes[carId], emissions[carId], prices[carId]);
     }
