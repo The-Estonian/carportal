@@ -3,6 +3,7 @@ package ee.bcs.carportal.controller;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.Random;
+import java.util.StringJoiner;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,6 +80,30 @@ public class CarController {
             }
         }
         return sb.substring(0, sb.length() - 2) + "; (number of car models: " + carCounter + ")";
+    }
+    // ------------------------------------------------------------------------------------------
+
+    @GetMapping("/cars/registration-tax-range")
+    @Tag(name = "Extra practice")
+    public String getCarsByRegistrationTaxRange(@RequestParam int from, @RequestParam int to,
+            @RequestParam int baseYear) {
+        int carCounter = 0;
+        StringBuilder sb = new StringBuilder("Cars in tax range €" + from + " - €" + to + ":\n\n");
+        for (int carId = 0; carId < prices.length; carId++) {
+            double taxRate = adjustTaxRate(carId, baseYear);
+            double taxAmount = calculateTaxAmountForCar(carId, taxRate);
+            if (taxAmount >= from && taxAmount <= to) {
+                sb.append(getCarInfo(manufacturers[carId], carModels[carId], modelYears[carId]));
+                sb.append(String.format("Tax rate: %.1f%%\n", taxRate));
+                sb.append(String.format("Tax amount: €%.0f\n", taxAmount));
+                sb.append("\n");
+                carCounter++;
+            }
+        }
+        if (carCounter == 0) {
+            return String.format("No cars found in tax range €%d - €%d", from, to);
+        }
+        return sb.append(String.format("Number of car models: %d", carCounter)).toString();
     }
 
     // ------------------------------------------------------------------------------------------
