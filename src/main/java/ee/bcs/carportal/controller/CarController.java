@@ -81,8 +81,24 @@ public class CarController {
         }
         return sb.substring(0, sb.length() - 2) + "; (number of car models: " + carCounter + ")";
     }
+    
     // ------------------------------------------------------------------------------------------
-
+    
+    @GetMapping("/car/{carId}/registration-tax")
+    @Tag(name = "Mandatory")
+    public String getCarRegistrationTaxByCarId(@PathVariable int carId, @RequestParam int baseYear) {
+        // Calculate tax %
+        double taxRate = adjustTaxRate(carId, baseYear);
+        // Calculate tax amount
+        double taxAmount = calculateTaxAmountForCar(carId, taxRate);
+        
+        return "The registration tax rate for " + modelYears[carId] + " " + manufacturers[carId] + " "
+        + carModels[carId] + " is " + Math.round(taxRate * 10.0) / 10.0 + "% with total tax amount €"
+        + Math.round(taxAmount);
+    }
+    
+    // ------------------------------------------------------------------------------------------
+    
     @GetMapping("/cars/registration-tax-range")
     @Tag(name = "Extra practice")
     public String getCarsByRegistrationTaxRange(@RequestParam int from, @RequestParam int to,
@@ -105,22 +121,7 @@ public class CarController {
         }
         return sb.append(String.format("Number of car models: %d", carCounter)).toString();
     }
-
-    // ------------------------------------------------------------------------------------------
-
-    @GetMapping("/car/{carId}/registration-tax")
-    @Tag(name = "Mandatory")
-    public String getCarRegistrationTaxByCarId(@PathVariable int carId, @RequestParam int baseYear) {
-        // Calculate tax %
-        double taxRate = adjustTaxRate(carId, baseYear);
-        // Calculate tax amount
-        double taxAmount = calculateTaxAmountForCar(carId, taxRate);
-
-        return "The registration tax rate for " + modelYears[carId] + " " + manufacturers[carId] + " "
-                + carModels[carId] + " is " + Math.round(taxRate * 10.0) / 10.0 + "% with total tax amount €"
-                + Math.round(taxAmount);
-    }
-
+    
     // ------------------------------------------------------------------------------------------
 
     @GetMapping("/car/{carId}/annual-tax")
@@ -131,6 +132,29 @@ public class CarController {
 
         return String.format("The annual tax for %d %s %s is €%.0f", modelYears[carId], manufacturers[carId],
                 carModels[carId], annualTax);
+    }
+
+    // ------------------------------------------------------------------------------------------
+
+    @GetMapping("/cars/annual-tax-range")
+    @Tag(name = "Extra practice")
+    public String getCarsByAnnualTaxRange(@RequestParam int from, @RequestParam int to,
+            @RequestParam int baseYear) {
+        int carCounter = 0;
+        StringBuilder sb = new StringBuilder("Cars in tax range €" + from + " - €" + to + ":\n\n");
+        for (int carId = 0; carId < prices.length; carId++) {
+            double taxAmount = calculateAnnualTax(carId, baseYear);
+            if (taxAmount >= from && taxAmount <= to) {
+                sb.append(getCarInfo(manufacturers[carId], carModels[carId], modelYears[carId]));
+                sb.append(String.format("Tax amount: €%.0f\n", taxAmount));
+                sb.append("\n");
+                carCounter++;
+            }
+        }
+        if (carCounter == 0) {
+            return String.format("No cars found in tax range €%d - €%d", from, to);
+        }
+        return sb.append(String.format("Number of car models: %d", carCounter)).toString();
     }
 
     // ------------------------------------------------------------------------------------------
