@@ -170,6 +170,17 @@ public class CarController {
         return getCarInfo(carId);
     }
 
+    @GetMapping("/car/id/basic-info")
+    @Tag(name = "Mandatory")
+    public String getCarBasicInfoByCarId() {
+        int carId = 5;
+        try {
+            return getCarInfo(carId);
+        } catch (Exception e) {
+            return String.format("No car with id %d exists ", carId);
+        }
+    }
+
     private String getCarInfo(int carId) {
         return String.format("Make: %s\nModel: %s\nFuel type: %s\nEmissions: %.2f\nPrice: €%d\n", manufacturers[carId],
                 carModels[carId], fuelTypes[carId], emissions[carId], prices[carId]);
