@@ -48,15 +48,18 @@ public class CarController {
     @Tag(name = "Mandatory")
     public String getCarsInPriceRange(@RequestParam int from, @RequestParam int to) {
         int carCounter = 0;
-        StringBuilder sb = new StringBuilder("Cars in price range €" + from + " - €" + to + ": ");
+        StringBuilder sb = new StringBuilder("Cars in price range €" + from + " - €" + to + ": \n\n");
         for (int carId = 0; carId < prices.length; carId++) {
             boolean isWithinPriceRange = prices[carId] >= from && prices[carId] <= to;
             if (isWithinPriceRange) {
-                sb.append(carModels[carId]).append(", ");
+                sb.append(getCarDetailedInfoByCarId(carId)).append("\n");
                 carCounter++;
             }
         }
-        return sb.substring(0, sb.length() - 2) + "; (number of car models: " + carCounter + ")";
+        if (carCounter == 0) {
+            return String.format("No cars found in price range €%d - €%d", from, to);
+        }
+        return sb.substring(0, sb.length() - 2) + "\n\nnumber of car models: " + carCounter;
     }
 
     // ------------------------------------------------------------------------------------------
