@@ -5,7 +5,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.Random;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/api/v1")
@@ -40,11 +42,9 @@ public class CarController {
         return sb.substring(0, sb.length() - 2) + "; (number of car models: " + carCounter + ")";
     }
 
-    @GetMapping("/cars/price-range/from/to")
+    @GetMapping("/cars/price-range")
     @Tag(name = "Mandatory")
-    public String getCarsInPriceRange() {
-        int from = 28000;
-        int to = 44000;
+    public String getCarsInPriceRange(@RequestParam int from, @RequestParam int to) {
         int carCounter = 0;
         StringBuilder sb = new StringBuilder("Cars in price range €" + from + " - €" + to + ": ");
         for (int carId = 0; carId < prices.length; carId++) {
@@ -57,11 +57,9 @@ public class CarController {
         return sb.substring(0, sb.length() - 2) + "; (number of car models: " + carCounter + ")";
     }
 
-    @GetMapping("/cars/green/price-range/from/to")
+    @GetMapping("/cars/green/price-range")
     @Tag(name = "Mandatory")
-    public String getGreenCarsInPriceRange() {
-        int from = 28000;
-        int to = 44000;
+    public String getGreenCarsInPriceRange(@RequestParam int from, @RequestParam int to) {
         int carCounter = 0;
         StringBuilder sb = new StringBuilder("Green cars in price range €" + from + " - €" + to + ": ");
         for (int carId = 0; carId < prices.length; carId++) {
@@ -76,11 +74,9 @@ public class CarController {
         return sb.substring(0, sb.length() - 2) + "; (number of car models: " + carCounter + ")";
     }
 
-    @GetMapping("/car/id/registration-tax")
+    @GetMapping("/car/{id}/registration-tax")
     @Tag(name = "Mandatory")
-    public String getCarRegistrationTaxByCarId() {
-        int carId = 0;
-        int baseYear = 2025;
+    public String getCarRegistrationTaxByCarId(@PathVariable int carId, @RequestParam int baseYear) {
         final double BASE_TAX_RATE = 5.0;
         final double ELECTRIC_ADJUSTMENT = -1.5;
         final double HYBRID_ADJUSTMENT = -0.5;
@@ -116,11 +112,9 @@ public class CarController {
                 + Math.round(taxAmount);
     }
 
-    @GetMapping("/car/id/annual-tax")
+    @GetMapping("/car/{id}/annual-tax")
     @Tag(name = "Mandatory")
-    public String getCarAnnualTaxByCarId() {
-        int carId = 0; // Example carId, you can modify it as needed
-        int baseYear = 2025;
+    public String getCarAnnualTaxByCarId(@PathVariable int carId, @RequestParam int baseYear) {
         final double BASE_FEE = 50.0;
         final double HYBRID_ADJUSTMENT = 20.0;
         final double PETROL_ADJUSTMENT = 30.0;
@@ -174,10 +168,9 @@ public class CarController {
         }
     }
 
-    @GetMapping("/car/id/basic-info")
+    @GetMapping("/car/{id}/basic-info")
     @Tag(name = "Mandatory")
-    public String getCarBasicInfoByCarId() {
-        int carId = 5;
+    public String getCarBasicInfoByCarId(@PathVariable int carId) {
         try {
             return getCarInfo(carId);
         } catch (Exception e) {
@@ -185,10 +178,9 @@ public class CarController {
         }
     }
 
-    @GetMapping("/car/id/detailed-info")
+    @GetMapping("/car/{id}/detailed-info")
     @Tag(name = "Mandatory")
-    public String getCarDetailedInfoByCarId() {
-        int carId = 5;
+    public String getCarDetailedInfoByCarId(@PathVariable int carId) {
         try {
             return getCarInfo(carId);
         } catch (Exception e) {
@@ -197,7 +189,7 @@ public class CarController {
     }
 
     private String getCarInfo(int carId) throws Exception {
-        if (carId > carModels.length-1 || carId < 0) {
+        if (carId > carModels.length - 1 || carId < 0) {
             throw new Exception(String.format("No car with id %d exists", carId));
         }
         return String.format("Make: %s\nModel: %s\nFuel type: %s\nEmissions: %.2f\nPrice: €%d\n", manufacturers[carId],
