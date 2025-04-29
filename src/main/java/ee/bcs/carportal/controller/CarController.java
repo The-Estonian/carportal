@@ -1,6 +1,9 @@
 package ee.bcs.carportal.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import java.util.Random;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CarController {
 
-    private final String[] carModels = {"Model 3", "Civic", "Camry", "F-150", "Prius"};
-    private final String[] manufacturers = {"Tesla", "Honda", "Toyota", "Ford", "Toyota"};
-    private final int[] modelYears = {2020, 2021, 2022, 2023, 2020};
-    private final String[] fuelTypes = {"Electric", "Petrol", "Petrol", "Petrol", "Hybrid"};
-    private final double[] emissions = {0.0, 0.05, 0.04, 0.1, 0.03};
-    private final int[] prices = {44000, 25000, 28000, 45000, 30000};
+    private final String[] carModels = { "Model 3", "Civic", "Camry", "F-150", "Prius" };
+    private final String[] manufacturers = { "Tesla", "Honda", "Toyota", "Ford", "Toyota" };
+    private final int[] modelYears = { 2020, 2021, 2022, 2023, 2020 };
+    private final String[] fuelTypes = { "Electric", "Petrol", "Petrol", "Petrol", "Hybrid" };
+    private final double[] emissions = { 0.0, 0.05, 0.04, 0.1, 0.03 };
+    private final int[] prices = { 44000, 25000, 28000, 45000, 30000 };
 
     // Fuel type constants
     private static final String FUEL_TYPE_ELECTRIC = "Electric";
@@ -63,7 +66,8 @@ public class CarController {
         StringBuilder sb = new StringBuilder("Green cars in price range €" + from + " - €" + to + ": ");
         for (int carId = 0; carId < prices.length; carId++) {
             boolean isWithinPriceRange = prices[carId] >= from && prices[carId] <= to;
-            boolean isGreenCar = fuelTypes[carId].equals(FUEL_TYPE_ELECTRIC) || fuelTypes[carId].equals(FUEL_TYPE_HYBRID);
+            boolean isGreenCar = fuelTypes[carId].equals(FUEL_TYPE_ELECTRIC)
+                    || fuelTypes[carId].equals(FUEL_TYPE_HYBRID);
             if (isWithinPriceRange && isGreenCar) {
                 sb.append(carModels[carId]).append(" (").append(fuelTypes[carId]).append("), ");
                 carCounter++;
@@ -94,19 +98,22 @@ public class CarController {
         }
 
         // Adjust for emissions
-        double emissionAdjustment = emissions[carId] * EMISSION_MULTIPLIER; // For each 0.01 in emissions, increase tax rate by 0.1%
+        double emissionAdjustment = emissions[carId] * EMISSION_MULTIPLIER; // For each 0.01 in emissions, increase tax
+                                                                            // rate by 0.1%
         taxRate += emissionAdjustment;
 
         // Adjust for model year
         int yearDifference = baseYear - modelYears[carId];
-        double modelYearAdjustment = yearDifference * MODEL_YEAR_MULTIPLIER; // Reduce 0.2% for each year older than the base year
+        double modelYearAdjustment = yearDifference * MODEL_YEAR_MULTIPLIER; // Reduce 0.2% for each year older than the
+                                                                             // base year
         taxRate -= modelYearAdjustment;
 
         // Calculate final tax
         double taxAmount = prices[carId] * (taxRate / 100); // Calculate tax based on final rate
 
         return "The registration tax rate for " + modelYears[carId] + " " + manufacturers[carId] + " "
-                + carModels[carId] + " is " + Math.round(taxRate * 10.0) / 10.0 + "% with total tax amount €" + Math.round(taxAmount);
+                + carModels[carId] + " is " + Math.round(taxRate * 10.0) / 10.0 + "% with total tax amount €"
+                + Math.round(taxAmount);
     }
 
     @GetMapping("/car/id/annual-tax")
@@ -129,12 +136,14 @@ public class CarController {
         }
 
         // Adjust for emissions
-        double emissionAdjustment = emissions[carId] * EMISSION_MULTIPLIER; // For each 0.01 in emissions, increase tax by €5
+        double emissionAdjustment = emissions[carId] * EMISSION_MULTIPLIER; // For each 0.01 in emissions, increase tax
+                                                                            // by €5
         annualTax += emissionAdjustment;
 
         // Adjust for model year
         int yearDifference = baseYear - modelYears[carId];
-        double modelYearAdjustment = yearDifference * MODEL_YEAR_MULTIPLIER; // Reduce €2 for each year older than the base year
+        double modelYearAdjustment = yearDifference * MODEL_YEAR_MULTIPLIER; // Reduce €2 for each year older than the
+                                                                             // base year
         annualTax -= modelYearAdjustment;
 
         // Ensure the final annual tax is at least the base fee
@@ -143,7 +152,19 @@ public class CarController {
             annualTax = BASE_FEE;
         }
 
-        return String.format("The annual tax for %d %s %s is €%.0f", modelYears[carId], manufacturers[carId], carModels[carId], annualTax);
+        return String.format("The annual tax for %d %s %s is €%.0f", modelYears[carId], manufacturers[carId],
+                carModels[carId], annualTax);
+    }
+
+    @GetMapping("/car/random/basic-info")
+    @Tag(name = "Mandatory")
+    public String getRandomCarBasicInfo() {
+        int carId = new Random().nextInt(0, 5);
+        return getCarInfo(manufacturers[carId], carModels[carId], modelYears[carId]);
+    }
+
+    private String getCarInfo(String manufacturer, String carModel, int modelYear) {
+        return String.format("Make: %s\nModel: %s\nYear: %d\n", manufacturer, carModel, modelYear);
     }
 
     // Extra practice endpoints go to below
@@ -151,6 +172,5 @@ public class CarController {
     // @Tag(name = "Extra practice")
 
     // ALL PRIVATE METHODS go to below
-
 
 }
