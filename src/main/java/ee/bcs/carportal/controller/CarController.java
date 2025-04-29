@@ -163,6 +163,18 @@ public class CarController {
         return getCarInfo(manufacturers[carId], carModels[carId], modelYears[carId]);
     }
 
+    @GetMapping("/car/random/detailed-info")
+    @Tag(name = "Mandatory")
+    public String getRandomCarDetailedInfo() {
+        int carId = new Random().nextInt(0, 5);
+        return getCarInfo(carId);
+    }
+
+    private String getCarInfo(int carId) {
+        return String.format("Make: %s\nModel: %s\nFuel type: %s\nEmissions: %.2f\nPrice: €%d\n", manufacturers[carId],
+                carModels[carId], fuelTypes[carId], emissions[carId], prices[carId]);
+    }
+
     private String getCarInfo(String manufacturer, String carModel, int modelYear) {
         return String.format("Make: %s\nModel: %s\nYear: %d\n", manufacturer, carModel, modelYear);
     }
