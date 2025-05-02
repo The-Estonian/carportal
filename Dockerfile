@@ -1,31 +1,29 @@
-# Use a JDK image as the base image
-FROM openjdk:21-jdk-slim as builder
+# Stage 1: Build the JAR
+FROM openjdk:21-jdk-slim AS builder
 
-# Set the working directory inside the container
+# Set working directory
 WORKDIR /app
 
-# Copy the Gradle wrapper and other necessary files
-COPY gradlew /app/gradlew
-COPY gradle /app/gradle
+# Copy Gradle wrapper and config files
+COPY gradlew ./gradlew
+COPY gradle gradle
 COPY build.gradle settings.gradle /app/
+COPY src src
 
-# Copy the source code to the container
-COPY src /app/src
+# Ensure gradlew is executable
+RUN chmod +x gradlew
 
-# Make gradlew executable
-RUN chmod +x /app/gradlew
-
-# Run Gradle to build the JAR file (this assumes you have a gradle wrapper in your project)
+# Copy application source
+# Build the application
 RUN ./gradlew build -x test
 
-# Now that we have the JAR, let's create a minimal image to run the app
+# Stage 2: Run the JAR
 FROM openjdk:21-jdk-slim
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the JAR file from the builder stage
-COPY --from=builder /app/build/libs/*.jar /app/app.jar
+# Copy only the built jar from the builder image
+COPY --from=builder /app/build/libs/*.jar app.jar
 
-# Run the JAR file
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+# Start the app
+ENTRYPOINT ["java", "-jar", "app.jar"]
