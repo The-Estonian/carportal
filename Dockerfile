@@ -25,7 +25,7 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 
 # Copy the JAR file from the builder stage
-COPY --from=builder /app/build/libs/*.jar app.jar
+COPY --from=builder /app/build/libs/*.jar /app/app.jar
 
 # Run the JAR file
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
