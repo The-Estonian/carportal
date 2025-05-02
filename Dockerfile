@@ -11,6 +11,8 @@ COPY build.gradle settings.gradle /app/
 # Copy the source code to the container
 COPY src /app/src
 
+RUN chmod +x /app/gradlew
+
 # Run Gradle to build the JAR file (this assumes you have a gradle wrapper in your project)
 RUN ./gradlew build -x test
 
