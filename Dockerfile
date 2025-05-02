@@ -5,12 +5,14 @@ FROM openjdk:21-jdk-slim as builder
 WORKDIR /app
 
 # Copy the Gradle wrapper and other necessary files
-COPY gradle/ gradle/
+COPY gradlew /app/gradlew
+COPY gradle /app/gradle
 COPY build.gradle settings.gradle /app/
 
 # Copy the source code to the container
 COPY src /app/src
 
+# Make gradlew executable
 RUN chmod +x /app/gradlew
 
 # Run Gradle to build the JAR file (this assumes you have a gradle wrapper in your project)
