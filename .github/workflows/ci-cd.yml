@@ -1,27 +1,26 @@
 name: Deploy to AWS EC2
 
 on:
-  push:
-    branches:
-      - main
+    push:
+        branches:
+            - main
 
 jobs:
-  pull-and-switch:
-    runs-on: ubuntu-latest
+    pull-and-switch:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Deploy to EC2 via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd carportal
-            sudo docker stop carportal_container || true
-            sudo docker rm carportal_container || true
-            sudo docker image rm carportal_image
-            sudo git pull
-            ./gradlew bootBuildImage --imageName=carportal_image
-            sudo docker run -p 8080:8080 -d --name carportal_container carportal_image
-
+        steps:
+            - name: Deploy to EC2 via SSH
+              uses: appleboy/ssh-action@v1.0.3
+              with:
+                  host: ${{ secrets.EC2_HOST }}
+                  username: ${{ secrets.EC2_USER }}
+                  key: ${{ secrets.EC2_SSH_KEY }}
+                  script: |
+                      cd carportal
+                      sudo docker stop carportal_container || true
+                      sudo docker rm carportal_container || true
+                      sudo docker image rm carportal_image
+                      sudo git pull
+                      sudo docker build -t carportal_image .
+                      sudo docker run -p 8080:8080 -d --name carportal_container carportal_image
