@@ -23,7 +23,7 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 
 # Copy only the built jar from the builder image
-COPY --from=builder /app/build/libs/*.jar /app/
+COPY --from=builder /app/build/libs/carportal-0.0.1-SNAPSHOT.jar app.jar
 
 # Start the app
 ENTRYPOINT ["java", "-jar", "app.jar"]
