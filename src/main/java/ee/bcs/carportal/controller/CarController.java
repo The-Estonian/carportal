@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.StringJoiner;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/api/v1")
 @RestController
+@CrossOrigin(origins = "https://saarcodes.dev")
 public class CarController {
 
     private final String[] carModels = { "Model 3", "Civic", "Camry", "F-150", "Prius" };
