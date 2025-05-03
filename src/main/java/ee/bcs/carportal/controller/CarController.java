@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/api/v1")
 @RestController
-@CrossOrigin(origins = "https://saarcodes.dev")
+@CrossOrigin(origins = {
+        "https://saarcodes.dev",
+        "http://localhost:5173"
+})
 public class CarController {
 
     private final String[] carModels = { "Model 3", "Civic", "Camry", "F-150", "Prius" };
