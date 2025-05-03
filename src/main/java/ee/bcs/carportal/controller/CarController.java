@@ -2,6 +2,10 @@ package ee.bcs.carportal.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.StringJoiner;
 
@@ -27,22 +31,57 @@ public class CarController {
     private static final String FUEL_TYPE_HYBRID = "Hybrid";
     private static final String FUEL_TYPE_PETROL = "Petrol";
 
+    private final List<Map<String, Object>> cars = new ArrayList<>();
+
+    public CarController() {
+
+        for (int i = 0; i < carModels.length; i++) {
+
+            Map<String, Object> car = new HashMap<>();
+
+            car.put("id", i + 1);
+
+            car.put("model", carModels[i]);
+
+            car.put("manufacturer", manufacturers[i]);
+
+            car.put("year", modelYears[i]);
+
+            car.put("fuelType", fuelTypes[i]);
+
+            car.put("emission", emissions[i]);
+
+            car.put("price", prices[i]);
+
+            cars.add(car);
+
+        }
+
+    }
+
     // Mandatory endpoints go to below
     // Please use @Tag annotation as below with all mandatory endpoints:
     // @Tag(name = "Mandatory")
 
     @GetMapping("/cars/all")
     @Tag(name = "Mandatory")
-    public String getAllCars() {
-        int carCounter = 0;
-        StringBuilder sb = new StringBuilder("All car models: ");
-        for (String model : carModels) {
-            sb.append(model).append(", ");
-            carCounter++;
-        }
-        return sb.substring(0, sb.length() - 2) + "; (number of car models: " + carCounter + ")";
-    }
+    // public String getAllCars() {
+    // int carCounter = 0;
+    // StringBuilder sb = new StringBuilder("All car models: ");
+    // for (String model : carModels) {
+    // sb.append(model).append(", ");
+    // carCounter++;
+    // }
+    // return sb.substring(0, sb.length() - 2) + "; (number of car models: " +
+    // carCounter + ")";
+    // }
+    public List<Map<String, Object>> getAllCars() {
 
+        System.out.println(cars);
+
+        return cars;
+
+    }
     // ------------------------------------------------------------------------------------------
 
     @GetMapping("/cars/price-range")
