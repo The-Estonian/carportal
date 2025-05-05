@@ -70,16 +70,6 @@ public class CarController {
 
     @GetMapping("/cars/all")
     @Tag(name = "Mandatory")
-    // public String getAllCars() {
-    // int carCounter = 0;
-    // StringBuilder sb = new StringBuilder("All car models: ");
-    // for (String model : carModels) {
-    // sb.append(model).append(", ");
-    // carCounter++;
-    // }
-    // return sb.substring(0, sb.length() - 2) + "; (number of car models: " +
-    // carCounter + ")";
-    // }
     public List<Map<String, Object>> getAllCars() {
 
         System.out.println(cars);
@@ -93,18 +83,18 @@ public class CarController {
     @Tag(name = "Mandatory")
     public String getCarsInPriceRange(@RequestParam int from, @RequestParam int to) {
         int carCounter = 0;
-        StringBuilder sb = new StringBuilder("Cars in price range €" + from + " - €" + to + ": \n\n");
+        StringBuilder sb = new StringBuilder("Cars in price range €" + from + " - €" + to + ":\n\n");
         for (int carId = 0; carId < prices.length; carId++) {
             boolean isWithinPriceRange = prices[carId] >= from && prices[carId] <= to;
             if (isWithinPriceRange) {
-                sb.append(getCarDetailedInfoByCarId(carId)).append("\n");
+                sb.append(getCarDetailedInfoByCarId(carId)).append("\n\n");
                 carCounter++;
             }
         }
         if (carCounter == 0) {
             return String.format("No cars found in price range €%d - €%d", from, to);
         }
-        return sb.substring(0, sb.length() - 2) + "\n\nnumber of car models: " + carCounter;
+        return sb.substring(0, sb.length() - 2) + "\n\nNumber of car models: " + carCounter;
     }
 
     // ------------------------------------------------------------------------------------------
@@ -183,7 +173,7 @@ public class CarController {
         try {
             return getCarInfo(carId);
         } catch (Exception e) {
-            return String.format("No car with id %d exists ", carId);
+            return String.format("No car with id %d exists", carId);
         }
     }
 
@@ -259,8 +249,8 @@ public class CarController {
         if (carId > carModels.length - 1 || carId < 0) {
             throw new Exception(String.format("No car with id %d exists", carId));
         }
-        return String.format("Make: %s\nModel: %s\nFuel type: %s\nEmissions: %.2f\nPrice: €%d\n", manufacturers[carId],
-                carModels[carId], fuelTypes[carId], emissions[carId], prices[carId]);
+        return String.format("Make: %s\nModel: %s\nFuel type: %s\nEmission: %s\nPrice: €%d", manufacturers[carId],
+                carModels[carId], fuelTypes[carId], String.valueOf(emissions[carId]), prices[carId]);
     }
 
     // -------------------------------------
