@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.StringJoiner;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,29 +38,17 @@ public class CarController {
     private final List<Map<String, Object>> cars = new ArrayList<>();
 
     public CarController() {
-
         for (int i = 0; i < carModels.length; i++) {
-
             Map<String, Object> car = new HashMap<>();
-
             car.put("id", i + 1);
-
             car.put("model", carModels[i]);
-
             car.put("manufacturer", manufacturers[i]);
-
             car.put("year", modelYears[i]);
-
             car.put("fuelType", fuelTypes[i]);
-
             car.put("emission", emissions[i]);
-
             car.put("price", prices[i]);
-
             cars.add(car);
-
         }
-
     }
 
     // Mandatory endpoints go to below
