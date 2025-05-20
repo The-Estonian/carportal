@@ -1,10 +1,14 @@
 package ee.bcs.carportal.service;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
+import java.io.File;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -94,25 +98,33 @@ public class CarService {
     }
 
     public static List<Car> createCars() {
-        String[] carModels = { "Model 3", "Civic", "Camry", "F-150", "Prius" };
-        String[] manufacturers = { "Tesla", "Honda", "Toyota", "Ford", "Toyota" };
-        int[] modelYears = { 2020, 2021, 2022, 2023, 2020 };
-        String[] fuelTypes = { "Electric", "Petrol", "Petrol", "Petrol", "Hybrid" };
-        double[] emissions = { 0.0, 0.05, 0.04, 0.1, 0.03 };
-        int[] prices = { 44000, 25000, 28000, 45000, 30000 };
-
         List<Car> cars = new ArrayList<>();
-        for (int i = 0; i < fuelTypes.length; i++) {
-            FuelType carFuelType = FuelType.PETROL;
-            switch (fuelTypes[i]) {
-                case "Electric" -> carFuelType = FuelType.ELECTRIC;
-                case "Hybrid" -> carFuelType = FuelType.HYBRID;
+        try (InputStream is = CarService.class.getClassLoader().getResourceAsStream("files/car_data.csv");
+                Scanner myReader = new Scanner(is)) {
+            if (myReader.hasNextLine()) {
+                myReader.nextLine();
             }
-            cars.add(new Car(carModels[i],
-                    manufacturers[i],
-                    modelYears[i],
-                    carFuelType, emissions[i],
-                    prices[i]));
+            while (myReader.hasNextLine()) {
+
+                String data = myReader.nextLine();
+                String[] splitData = data.split(",");
+                FuelType carFuelType = FuelType.PETROL;
+                switch (splitData[3]) {
+                    case "Electric" -> carFuelType = FuelType.ELECTRIC;
+                    case "Hybrid" -> carFuelType = FuelType.HYBRID;
+                }
+                Car car = new Car(
+                        splitData[0],
+                        splitData[1],
+                        Integer.parseInt(splitData[2]),
+                        carFuelType,
+                        Double.parseDouble(splitData[4]),
+                        Integer.parseInt(splitData[5]));
+                cars.add(car);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read car_data.csv", e);
         }
         return cars;
     }
