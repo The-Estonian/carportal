@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import ee.bcs.carportal.persistence.Car;
 import ee.bcs.carportal.persistence.FuelType;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @RequestMapping("/api/v1")
@@ -25,14 +29,16 @@ public class CarController {
     private static final String FUEL_TYPE_PETROL = "Petrol";
     private static final double BASE_FEE = 50.0;
 
+    public static List<Car> cars = createCars();
+
     // Mandatory endpoints go to below
     // Please use @Tag annotation as below with all mandatory endpoints:
     // @Tag(name = "Mandatory")
 
     @GetMapping("/cars/all/class")
     @Tag(name = "Mandatory")
-    public Car getCarClassEndpoint() {
-        return new Car(carModels[0], manufacturers[0], modelYears[0], FuelType.ELECTRIC, emissions[0], prices[0]);
+    public List<Car> getCarClassEndpoint() {
+        return cars;
     }
 
     @GetMapping("/cars/all")
@@ -143,6 +149,31 @@ public class CarController {
     // @Tag(name = "Extra practice")
 
     // ALL PRIVATE METHODS go to below
+
+    public static List<Car> createCars() {
+        String[] carModels = { "Model 3", "Civic", "Camry", "F-150", "Prius" };
+        String[] manufacturers = { "Tesla", "Honda", "Toyota", "Ford", "Toyota" };
+        int[] modelYears = { 2020, 2021, 2022, 2023, 2020 };
+        String[] fuelTypes = { "Electric", "Petrol", "Petrol", "Petrol", "Hybrid" };
+        double[] emissions = { 0.0, 0.05, 0.04, 0.1, 0.03 };
+        int[] prices = { 44000, 25000, 28000, 45000, 30000 };
+
+        List<Car> cars = new ArrayList<>();
+        for (int i = 0; i < fuelTypes.length; i++) {
+            FuelType carFuelType = FuelType.PETROL;
+            switch (fuelTypes[i]) {
+                case "Electric" -> carFuelType = FuelType.ELECTRIC;
+                case "Hybrid" -> carFuelType = FuelType.HYBRID;
+            }
+            cars.add(new Car(carModels[i],
+                    manufacturers[i],
+                    modelYears[i],
+                    carFuelType, emissions[i],
+                    prices[i]));
+        }
+        return cars;
+    }
+
     private double calculateRegistrationTaxRate(int carId, int baseYear) {
         double taxRate = getFuelTypeAdjustedRegistrationTaxRate(carId);
         taxRate = getEmissionsAdjustedRegistrationTaxRate(carId, taxRate);
