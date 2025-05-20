@@ -3,18 +3,21 @@ package ee.bcs.carportal.controller;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
+import ee.bcs.carportal.persistence.Car;
+import ee.bcs.carportal.persistence.FuelType;
+
 import java.util.Random;
 
 @RequestMapping("/api/v1")
 @RestController
 public class CarController {
 
-    private final String[] carModels = {"Model 3", "Civic", "Camry", "F-150", "Prius"};
-    private final String[] manufacturers = {"Tesla", "Honda", "Toyota", "Ford", "Toyota"};
-    private final int[] modelYears = {2020, 2021, 2022, 2023, 2020};
-    private final String[] fuelTypes = {"Electric", "Petrol", "Petrol", "Petrol", "Hybrid"};
-    private final double[] emissions = {0.0, 0.05, 0.04, 0.1, 0.03};
-    private final int[] prices = {44000, 25000, 28000, 45000, 30000};
+    private final String[] carModels = { "Model 3", "Civic", "Camry", "F-150", "Prius" };
+    private final String[] manufacturers = { "Tesla", "Honda", "Toyota", "Ford", "Toyota" };
+    private final int[] modelYears = { 2020, 2021, 2022, 2023, 2020 };
+    private final String[] fuelTypes = { "Electric", "Petrol", "Petrol", "Petrol", "Hybrid" };
+    private final double[] emissions = { 0.0, 0.05, 0.04, 0.1, 0.03 };
+    private final int[] prices = { 44000, 25000, 28000, 45000, 30000 };
 
     // Fuel type constants
     private static final String FUEL_TYPE_ELECTRIC = "Electric";
@@ -25,6 +28,12 @@ public class CarController {
     // Mandatory endpoints go to below
     // Please use @Tag annotation as below with all mandatory endpoints:
     // @Tag(name = "Mandatory")
+
+    @GetMapping("/cars/all/class")
+    @Tag(name = "Mandatory")
+    public Car getCarClassEndpoint() {
+        return new Car(carModels[0], manufacturers[0], modelYears[0], FuelType.ELECTRIC, emissions[0], prices[0]);
+    }
 
     @GetMapping("/cars/all")
     @Tag(name = "Mandatory")
@@ -63,7 +72,8 @@ public class CarController {
         StringBuilder sb = new StringBuilder("Green cars in price range €" + from + " - €" + to + ": ");
         for (int carId = 0; carId < prices.length; carId++) {
             boolean isWithinPriceRange = prices[carId] >= from && prices[carId] <= to;
-            boolean isGreenCar = fuelTypes[carId].equals(FUEL_TYPE_ELECTRIC) || fuelTypes[carId].equals(FUEL_TYPE_HYBRID);
+            boolean isGreenCar = fuelTypes[carId].equals(FUEL_TYPE_ELECTRIC)
+                    || fuelTypes[carId].equals(FUEL_TYPE_HYBRID);
             if (isWithinPriceRange && isGreenCar) {
                 sb.append(carModels[carId]).append(" (").append(fuelTypes[carId]).append("), ");
                 carCounter++;
@@ -78,14 +88,16 @@ public class CarController {
         double registrationTaxRate = calculateRegistrationTaxRate(carId, baseYear);
         double taxAmount = calculateTaxAmount(carId, registrationTaxRate);
         return "The registration tax rate for " + modelYears[carId] + " " + manufacturers[carId] + " "
-                + carModels[carId] + " is " + registrationTaxRate + "% with total tax amount €" + String.format("%.0f", taxAmount);
+                + carModels[carId] + " is " + registrationTaxRate + "% with total tax amount €"
+                + String.format("%.0f", taxAmount);
     }
 
     @GetMapping("/car/{carId}/annual-tax")
     @Tag(name = "Mandatory")
     public String getCarAnnualTaxByCarId(@PathVariable int carId, @RequestParam int baseYear) {
         double annualTax = calculateAnnualTax(carId, baseYear);
-        return String.format("The annual tax for %d %s %s is €%.0f", modelYears[carId], manufacturers[carId], carModels[carId], annualTax);
+        return String.format("The annual tax for %d %s %s is €%.0f", modelYears[carId], manufacturers[carId],
+                carModels[carId], annualTax);
     }
 
     @GetMapping("/car/random/basic-info")
@@ -155,16 +167,17 @@ public class CarController {
 
     private double getEmissionsAdjustedRegistrationTaxRate(int carId, double taxRate) {
         final double EMISSION_MULTIPLIER = 10.0; // For each 0.01 in emissions, increase tax rate by 0.1%
-        double emissionAdjustment = emissions[carId] * EMISSION_MULTIPLIER; // For each 0.01 in emissions, increase tax rate by 0.1%
+        double emissionAdjustment = emissions[carId] * EMISSION_MULTIPLIER; // For each 0.01 in emissions, increase tax
+                                                                            // rate by 0.1%
         taxRate += emissionAdjustment;
         return taxRate;
     }
 
-
     private double getModelYearAdjustedRegistrationTaxRate(int carId, int baseYear, double taxRate) {
         final double MODEL_YEAR_MULTIPLIER = 0.2; // Reduce 0.2% for each year older than the base year
         int yearDifference = baseYear - modelYears[carId];
-        double modelYearAdjustment = yearDifference * MODEL_YEAR_MULTIPLIER; // Reduce 0.2% for each year older than the base year
+        double modelYearAdjustment = yearDifference * MODEL_YEAR_MULTIPLIER; // Reduce 0.2% for each year older than the
+                                                                             // base year
         taxRate -= modelYearAdjustment;
         return taxRate;
     }
@@ -198,7 +211,8 @@ public class CarController {
 
     private double getEmissionsAdjustedAnnualTax(int carId, double annualTax) {
         final double EMISSION_MULTIPLIER = 500.0; // For each 0.01 in emissions, increase tax by €5
-        double emissionAdjustment = emissions[carId] * EMISSION_MULTIPLIER; // For each 0.01 in emissions, increase tax by €5
+        double emissionAdjustment = emissions[carId] * EMISSION_MULTIPLIER; // For each 0.01 in emissions, increase tax
+                                                                            // by €5
         annualTax += emissionAdjustment;
         return annualTax;
     }
@@ -206,7 +220,8 @@ public class CarController {
     private double getModelYearAdjustedAnnualTax(int carId, int baseYear, double annualTax) {
         final double MODEL_YEAR_MULTIPLIER = 2.0; // Reduce €2 for each year older than the base year
         int yearDifference = baseYear - modelYears[carId];
-        double modelYearAdjustment = yearDifference * MODEL_YEAR_MULTIPLIER; // Reduce €2 for each year older than the base year
+        double modelYearAdjustment = yearDifference * MODEL_YEAR_MULTIPLIER; // Reduce €2 for each year older than the
+                                                                             // base year
         annualTax -= modelYearAdjustment;
         return annualTax;
     }
