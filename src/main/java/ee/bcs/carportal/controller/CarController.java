@@ -1,17 +1,14 @@
 package ee.bcs.carportal.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import ee.bcs.carportal.persistence.Car;
-import ee.bcs.carportal.persistence.FuelType;
 import ee.bcs.carportal.service.CarService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 @RequestMapping("/api/v1")
 @RestController
@@ -22,10 +19,10 @@ public class CarController {
         this.carService = carService;
     }
 
-    @GetMapping("/cars/all/class")
+    @PostMapping("/car")
     @Tag(name = "Mandatory")
-    public List<Car> getCarClassEndpoint() {
-        return carService.getAllCars();
+    public void addNewCar(@RequestBody Car car) {
+        carService.addNewCar(car);
     }
 
     @GetMapping("/cars/all")

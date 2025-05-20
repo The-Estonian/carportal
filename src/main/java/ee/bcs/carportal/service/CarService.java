@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,10 @@ import ee.bcs.carportal.persistence.FuelType;
 public class CarService {
     private static final double BASE_FEE = 50.0;
     public static List<Car> cars = createCars();
+
+    public void addNewCar(Car car) {
+        cars.add(car);
+    }
 
     public List<Car> getAllCars() {
         return cars;
