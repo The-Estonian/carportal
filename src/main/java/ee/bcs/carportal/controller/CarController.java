@@ -37,6 +37,12 @@ public class CarController {
         carService.updateCarPrice(carId, price);
     }
 
+    @DeleteMapping("/car/{carId}")
+    @Tag(name = "Mandatory")
+    public void deleteCar(@PathVariable int carId) {
+        carService.deleteCar(carId);
+    }
+
     @GetMapping("/cars/all")
     @Tag(name = "Mandatory")
     public List<Car> getAllCars() {
