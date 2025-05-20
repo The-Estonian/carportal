@@ -25,6 +25,18 @@ public class CarController {
         carService.addNewCar(car);
     }
 
+    @PutMapping("/car/{carId}")
+    @Tag(name = "Mandatory")
+    public void replaceCar(@PathVariable int carId, @RequestBody Car car) {
+        carService.replaceCar(carId, car);
+    }
+
+    @PatchMapping("/car/{carId}")
+    @Tag(name = "Mandatory")
+    public void updateCarPrice(@PathVariable int carId, @RequestParam int price) {
+        carService.updateCarPrice(carId, price);
+    }
+
     @GetMapping("/cars/all")
     @Tag(name = "Mandatory")
     public List<Car> getAllCars() {

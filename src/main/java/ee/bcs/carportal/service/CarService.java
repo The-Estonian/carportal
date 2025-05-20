@@ -17,6 +17,14 @@ public class CarService {
     private static final double BASE_FEE = 50.0;
     public static List<Car> cars = createCars();
 
+    public void updateCarPrice(int carId, int price) {
+        cars.get(carId).setPrice(price);
+    }
+
+    public void replaceCar(int carId, Car car) {
+        cars.set(carId, car);
+    }
+
     public void addNewCar(Car car) {
         cars.add(car);
     }
