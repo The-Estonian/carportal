@@ -1,0 +1,7 @@
+carModel,manufacturer,modelYear,fuelType,emissions,price
+Model 3,Tesla,2020,ELECTRIC,0.0,44000
+Civic,Honda,2021,PETROL,0.05,25000
+Camry,Toyota,2022,PETROL,0.04,28000
+F-150,Ford,2023,PETROL,0.1,45000
+Prius,Toyota,2020,HYBRID,0.03,30000
+Lada,Ladanissimo,2025,PETROL,0.1,100000

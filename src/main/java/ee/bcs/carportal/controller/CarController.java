@@ -2,15 +2,25 @@ package ee.bcs.carportal.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Scanner;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,6 +64,62 @@ public class CarController {
     // Mandatory endpoints go to below
     // Please use @Tag annotation as below with all mandatory endpoints:
     // @Tag(name = "Mandatory")
+
+    @GetMapping("/cars/from-file")
+    @Tag(name = "Mandatory")
+    public List<Map<String, Object>> getAllCarsFromFile() {
+        final List<Map<String, Object>> fileCars = new ArrayList<>();
+        int counter = 0;
+
+        try (Scanner myReader = new Scanner(new FileInputStream(new File("data/car.csv")))) {
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                String[] splitData = data.split(",");
+                Map<String, Object> car = new HashMap<>();
+                if (counter != 0) {
+                    car.put("id", counter);
+                    car.put("model", splitData[0]);
+                    car.put("manufacturer", splitData[1]);
+                    car.put("year", splitData[2]);
+                    car.put("fuelType", splitData[3]);
+                    car.put("emission", splitData[4]);
+                    car.put("price", splitData[5]);
+                    fileCars.add(car);
+                }
+                counter++;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read car.txt", e);
+        }
+
+        return fileCars;
+    }
+    // ------------------------------------------------------------------------------------------
+
+    @PostMapping("/cars/add-car")
+    @Tag(name = "Mandatory")
+    public void addCar(@RequestParam String model,
+            @RequestParam String manufacturer,
+            @RequestParam int year,
+            @RequestParam String fuelType,
+            @RequestParam String emission,
+            @RequestParam int price) {
+        try (FileWriter fw = new FileWriter("data/car.csv", true); // true = append mode
+                BufferedWriter bw = new BufferedWriter(fw);
+                PrintWriter out = new PrintWriter(bw)) {
+            String newRow = String.join(",",
+                    model,
+                    manufacturer,
+                    String.valueOf(year),
+                    fuelType,
+                    emission,
+                    String.valueOf(price));
+            out.println(newRow);
+        } catch (IOException e) {
+            System.out.println("Error opening file");
+        }
+    }
+    // ------------------------------------------------------------------------------------------
 
     @GetMapping("/cars/all")
     @Tag(name = "Mandatory")
