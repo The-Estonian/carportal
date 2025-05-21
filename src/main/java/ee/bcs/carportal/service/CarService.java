@@ -110,8 +110,8 @@ public class CarService {
                 String[] splitData = data.split(",");
                 FuelType carFuelType = FuelType.PETROL;
                 switch (splitData[3]) {
-                    case "Electric" -> carFuelType = FuelType.ELECTRIC;
-                    case "Hybrid" -> carFuelType = FuelType.HYBRID;
+                    case "ELECTRIC" -> carFuelType = FuelType.ELECTRIC;
+                    case "HYBRID" -> carFuelType = FuelType.HYBRID;
                 }
                 Car car = new Car(
                         splitData[0],
