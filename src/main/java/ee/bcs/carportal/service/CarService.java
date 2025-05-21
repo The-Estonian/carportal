@@ -1,13 +1,11 @@
 package ee.bcs.carportal.service;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-import java.io.File;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -95,6 +93,30 @@ public class CarService {
 
     public Car getCarDetailedInfoByCarId(@PathVariable int carId) {
         return cars.get(carId);
+    }
+
+    public List<Car> getCarsByRegistrationTaxRange(@RequestParam int from, @RequestParam int to,
+            @RequestParam int baseYear) {
+        List<Car> filteredCars = new ArrayList<>();
+        for (int carId = 0; carId < cars.size(); carId++) {
+            double taxRate = calculateRegistrationTaxRate(carId, baseYear);
+            double taxAmount = calculateTaxAmount(carId, taxRate);
+            if (taxAmount >= from && taxAmount <= to) {
+                filteredCars.add(cars.get(carId));
+            }
+        }
+        return filteredCars;
+    }
+
+    public List<Car> getCarsByAnnualTaxRange(@RequestParam int from, @RequestParam int to, @RequestParam int baseYear) {
+        List<Car> filteredCars = new ArrayList<>();
+        for (int carId = 0; carId < cars.size(); carId++) {
+            double annualTax = calculateAnnualTax(carId, baseYear);
+            if (annualTax >= from && annualTax <= to) {
+                filteredCars.add(cars.get(carId));
+            }
+        }
+        return filteredCars;
     }
 
     public static List<Car> createCars() {

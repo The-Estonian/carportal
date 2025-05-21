@@ -2,7 +2,6 @@ package ee.bcs.carportal.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import ee.bcs.carportal.persistence.Car;
@@ -53,12 +52,14 @@ public class CarController {
     @Tag(name = "Mandatory")
     public List<Car> getCarsInPriceRange(@RequestParam int from, @RequestParam int to) {
         return carService.getCarsInPriceRange(from, to);
+
     }
 
     @GetMapping("/cars/green/price-range")
     @Tag(name = "Mandatory")
     public List<Car> getGreenCarsInPriceRange(@RequestParam int from, @RequestParam int to) {
         return carService.getGreenCarsInPriceRange(from, to);
+
     }
 
     @GetMapping("/car/{carId}/registration-tax")
@@ -71,6 +72,19 @@ public class CarController {
     @Tag(name = "Mandatory")
     public String getCarAnnualTaxByCarId(@PathVariable int carId, @RequestParam int baseYear) {
         return carService.getCarAnnualTaxByCarId(carId, baseYear);
+    }
+
+    @GetMapping("/cars/registration-tax-range")
+    @Tag(name = "Extra practice")
+    public List<Car> getCarsByRegistrationTaxRange(@RequestParam int from, @RequestParam int to,
+            @RequestParam int baseYear) {
+        return carService.getCarsByRegistrationTaxRange(from, to, baseYear);
+    }
+
+    @GetMapping("/cars/annual-tax-range")
+    @Tag(name = "Extra practice")
+    public List<Car> getCarsByAnnualTaxRange(@RequestParam int from, @RequestParam int to, @RequestParam int baseYear) {
+        return carService.getCarsByAnnualTaxRange(from, to, baseYear);
     }
 
     @GetMapping("/car/random/basic-info")
