@@ -11,6 +11,10 @@ import java.util.List;
 
 @RequestMapping("/api/v1")
 @RestController
+@CrossOrigin(origins = {
+    "https://saarcodes.dev",
+    "http://localhost:5173"
+})
 public class CarController {
     private final CarService carService;
 
