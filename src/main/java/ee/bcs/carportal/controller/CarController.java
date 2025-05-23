@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = {
     "https://saarcodes.dev",
+    "https://www.saarcodes.dev",
     "http://localhost:5173"
 })
 public class CarController {
