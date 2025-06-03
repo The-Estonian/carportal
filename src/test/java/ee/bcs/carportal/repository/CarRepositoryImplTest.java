@@ -14,8 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import ee.bcs.carportal.persistence.Car;
 import ee.bcs.carportal.persistence.FuelType;
+import ee.bcs.carportal.persistence.car.Car;
 
 @SpringBootTest
 public class CarRepositoryImplTest {

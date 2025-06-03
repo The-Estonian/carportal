@@ -132,41 +132,41 @@ class CarControllerMvcTest {
                                 .andExpect(content().json(expectedJson));
         }
 
-        // @Test
-        // public void shouldReturnCarsByRegistrationTaxRange() throws Exception {
-        //         // Load the expected JSON from the file
-        //         Path path = Paths.get(
-        //                         ResourceUtils.getFile(
-        //                                         "classpath:files/expected_cars_registration_tax_range.json")
-        //                                         .toURI());
-        //         String expectedJson = Files.readString(path);
+        @Test
+        public void shouldReturnCarsByRegistrationTaxRange() throws Exception {
+                // Load the expected JSON from the file
+                Path path = Paths.get(
+                                ResourceUtils.getFile(
+                                                "classpath:files/expected_cars_registration_tax_range.json")
+                                                .toURI());
+                String expectedJson = Files.readString(path);
 
-        //         // Assert: Perform the GET request and check the response
-        //         mockMvc.perform(get("/api/v1/tax/cars/registration-tax-range")
-        //                         .param("from", "1100")
-        //                         .param("to", "1200")
-        //                         .param("baseYear", "2025"))
-        //                         .andExpect(status().isOk())
-        //                         .andExpect(content().contentType("application/json"))
-        //                         .andExpect(content().json(expectedJson));
-        // }
+                // Assert: Perform the GET request and check the response
+                mockMvc.perform(get("/api/v1/tax/cars/registration-tax-range")
+                                .param("from", "1100")
+                                .param("to", "1200")
+                                .param("baseYear", "2025"))
+                                .andExpect(status().isOk())
+                                .andExpect(content().contentType("application/json"))
+                                .andExpect(content().json(expectedJson));
+        }
 
-        // @Test
-        // public void shouldReturnCarsByAnnualTaxRange() throws Exception {
-        //         // Load the expected JSON from the file
-        //         Path path = Paths.get(
-        //                         ResourceUtils.getFile("classpath:files/expected_cars_annual_tax_range.json").toURI());
-        //         String expectedJson = Files.readString(path);
+        @Test
+        public void shouldReturnCarsByAnnualTaxRange() throws Exception {
+                // Load the expected JSON from the file
+                Path path = Paths.get(
+                                ResourceUtils.getFile("classpath:files/expected_cars_annual_tax_range.json").toURI());
+                String expectedJson = Files.readString(path);
 
-        //         // Assert: Perform the GET request and check the response
-        //         mockMvc.perform(get("/api/v1/tax/cars/annual-tax-range")
-        //                         .param("from", "50")
-        //                         .param("to", "126")
-        //                         .param("baseYear", "2025"))
-        //                         .andExpect(status().isOk())
-        //                         .andExpect(content().contentType("application/json"))
-        //                         .andExpect(content().json(expectedJson));
-        // }
+                // Assert: Perform the GET request and check the response
+                mockMvc.perform(get("/api/v1/tax/cars/annual-tax-range")
+                                .param("from", "50")
+                                .param("to", "126")
+                                .param("baseYear", "2025"))
+                                .andExpect(status().isOk())
+                                .andExpect(content().contentType("application/json"))
+                                .andExpect(content().json(expectedJson));
+        }
 
         // new tests
         @Test

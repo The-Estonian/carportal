@@ -1,5 +1,6 @@
-package ee.bcs.carportal.persistence;
+package ee.bcs.carportal.persistence.car;
 
+import ee.bcs.carportal.persistence.FuelType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

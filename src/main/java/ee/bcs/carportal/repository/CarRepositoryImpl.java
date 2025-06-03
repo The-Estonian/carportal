@@ -7,8 +7,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import ee.bcs.carportal.persistence.Car;
 import ee.bcs.carportal.persistence.FuelType;
+import ee.bcs.carportal.persistence.car.Car;
 
 @Repository
 public class CarRepositoryImpl implements CarRepository {

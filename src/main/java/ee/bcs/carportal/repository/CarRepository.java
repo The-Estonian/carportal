@@ -2,7 +2,7 @@ package ee.bcs.carportal.repository;
 
 import java.util.List;
 
-import ee.bcs.carportal.persistence.Car;
+import ee.bcs.carportal.persistence.car.Car;
 
 public interface CarRepository {
     public void save(Car car);
