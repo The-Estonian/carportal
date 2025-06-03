@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "carModel": "Model 3",
+  "manufacturer": "Tesla",
+  "modelYear": 2020,
+  "fuelType": "ELECTRIC",
+  "emissions": 0,
+  "price": 44000
+}

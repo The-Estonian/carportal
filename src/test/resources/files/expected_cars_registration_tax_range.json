@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "carModel": "Model 3",
+    "manufacturer": "Tesla",
+    "modelYear": 2020,
+    "fuelType": "ELECTRIC",
+    "emissions": 0,
+    "price": 44000
+  },
+  {
+    "id": 5,
+    "carModel": "Prius",
+    "manufacturer": "Toyota",
+    "modelYear": 2020,
+    "fuelType": "HYBRID",
+    "emissions": 0.03,
+    "price": 30000
+  }
+]
