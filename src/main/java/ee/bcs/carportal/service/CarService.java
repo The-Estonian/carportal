@@ -3,6 +3,7 @@ package ee.bcs.carportal.service;
 import ee.bcs.carportal.persistence.Car;
 import ee.bcs.carportal.persistence.FuelType;
 import ee.bcs.carportal.repository.CarRepository;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
@@ -14,13 +15,10 @@ import static ee.bcs.carportal.persistence.FuelType.ELECTRIC;
 import static ee.bcs.carportal.persistence.FuelType.HYBRID;
 
 @Service
+@RequiredArgsConstructor
 public class CarService {
 
     private final CarRepository carRepository;
-
-    public CarService(CarRepository carRepository) {
-        this.carRepository = carRepository;
-    }
 
     private static final double BASE_FEE = 50.0;
 

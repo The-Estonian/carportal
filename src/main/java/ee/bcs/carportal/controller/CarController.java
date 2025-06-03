@@ -4,18 +4,16 @@ import ee.bcs.carportal.persistence.Car;
 import ee.bcs.carportal.service.CarService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @RequestMapping("/api/v1")
 @RestController
+@RequiredArgsConstructor
 public class CarController {
 
     private final CarService carService;
-
-    public CarController(CarService carService) {
-        this.carService = carService;
-    }
 
     // Mandatory endpoints go to below
     // Please use @Tag annotation as below with all mandatory endpoints:
@@ -105,7 +103,8 @@ public class CarController {
 
     @GetMapping("/cars/registration-tax-range")
     @Tag(name = "Extra practice")
-    public List<Car> getCarsByRegistrationTaxRange(@RequestParam int from, @RequestParam int to, @RequestParam int baseYear) {
+    public List<Car> getCarsByRegistrationTaxRange(@RequestParam int from, @RequestParam int to,
+            @RequestParam int baseYear) {
         return carService.getCarsByRegistrationTaxRange(from, to, baseYear);
     }
 
