@@ -26,8 +26,8 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
     // Lombok
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok:1.18.30' // Or the very latest version, e.g., 1.18.32
+    annotationProcessor 'org.projectlombok:lombok:1.18.30' // Must match compileOnly
 }
 
 tasks.named('test') {
