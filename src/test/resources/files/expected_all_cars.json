@@ -1,82 +1,32 @@
 [
   {
-    "id": 1,
-    "manufacturer": {
-      "id": 1,
-      "name": "Tesla"
-    },
-    "fuelType": {
-      "id": 1,
-      "name": "ELECTRIC",
-      "code": "E"
-    },
-    "model": "Model 3",
-    "year": 2020,
-    "emissions": 0.0,
-    "price": 44000
+    "make": "Tesla",
+    "modelName": "Model 3",
+    "releaseYear": 2020
   },
   {
-    "id": 2,
-    "manufacturer": {
-      "id": 2,
-      "name": "Honda"
-    },
-    "fuelType": {
-      "id": 3,
-      "name": "PETROL",
-      "code": "P"
-    },
-    "model": "Civic",
-    "year": 2021,
-    "emissions": 0.05,
-    "price": 25000
+    "make": "Honda",
+    "modelName": "Civic",
+    "releaseYear": 2021
   },
   {
-    "id": 3,
-    "manufacturer": {
-      "id": 3,
-      "name": "Toyota"
-    },
-    "fuelType": {
-      "id": 3,
-      "name": "PETROL",
-      "code": "P"
-    },
-    "model": "Camry",
-    "year": 2022,
-    "emissions": 0.04,
-    "price": 28000
+    "make": "Toyota",
+    "modelName": "Camry",
+    "releaseYear": 2022
   },
   {
-    "id": 4,
-    "manufacturer": {
-      "id": 4,
-      "name": "Ford"
-    },
-    "fuelType": {
-      "id": 3,
-      "name": "PETROL",
-      "code": "P"
-    },
-    "model": "F-150",
-    "year": 2023,
-    "emissions": 0.1,
-    "price": 45000
+    "make": "Ford",
+    "modelName": "F-150",
+    "releaseYear": 2023
   },
   {
-    "id": 5,
-    "manufacturer": {
-      "id": 3,
-      "name": "Toyota"
-    },
-    "fuelType": {
-      "id": 2,
-      "name": "HYBRID",
-      "code": "H"
-    },
-    "model": "Prius",
-    "year": 2020,
-    "emissions": 0.03,
-    "price": 30000
+    "make": "Toyota",
+    "modelName": "Prius",
+    "releaseYear": 2020
+  },
+  {
+    "make": "Tesla",
+    "modelName": "Model S",
+    "releaseYear": 2022
   }
 ]
