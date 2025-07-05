@@ -28,8 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class) // Enable ordering with @Order
 class CarControllerMvcTest {
 
-    // @Autowired
-    // private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
     // // Add Car Test
     // @Test
@@ -49,16 +49,14 @@ class CarControllerMvcTest {
     // @Test
     // @Order(2) // This test will run second
     // public void shouldReturnCarInfo() throws Exception {
-    // // Load the expected JSON from the file
-    // Path path =
-    // Paths.get(ResourceUtils.getFile("classpath:files/expected_car_info.json").toURI());
-    // String expectedJson = Files.readString(path);
+    //     // Load the expected JSON from the file
+    //     Path path = Paths.get(ResourceUtils.getFile("classpath:files/expected_car_info.json").toURI());
+    //     String expectedJson = Files.readString(path);
 
-    // mockMvc.perform(get("/api/v1/car/{carId}", 1)) // Replace 1 with a valid car
-    // ID
-    // .andExpect(status().isOk())
-    // .andExpect(content().contentType("application/json"))
-    // .andExpect(content().json(expectedJson));
+    //     mockMvc.perform(get("/api/v1/car/{carId}", 1)) // Replace 1 with a valid car ID
+    //             .andExpect(status().isOk())
+    //             .andExpect(content().contentType("application/json"))
+    //             .andExpect(content().json(expectedJson));
     // }
 
     // // Find Car Detailed Info Test
@@ -78,19 +76,18 @@ class CarControllerMvcTest {
     // }
 
     // @Test
-    // @Order(4) // This test will run fourth
-    // public void shouldReturnAllCars() throws Exception {
-    // // Load the expected JSON from the file
-    // Path path =
-    // Paths.get(ResourceUtils.getFile("classpath:files/expected_all_cars.json").toURI());
-    // String expectedJson = Files.readString(path);
+    @Order(4) // This test will run fourth
+    public void shouldReturnAllCars() throws Exception {
+        // Load the expected JSON from the file
+        Path path = Paths.get(ResourceUtils.getFile("classpath:files/expected_all_cars.json").toURI());
+        String expectedJson = Files.readString(path);
 
-    // // Assert: Perform the GET request and check the response
-    // mockMvc.perform(get("/api/v1/cars/all"))
-    // .andExpect(status().isOk())
-    // .andExpect(content().contentType("application/json"))
-    // .andExpect(content().json(expectedJson));
-    // }
+        // Assert: Perform the GET request and check the response
+        mockMvc.perform(get("/api/v1/cars/all"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(content().json(expectedJson));
+    }
 
     // // Update Car Test
     // @Test
