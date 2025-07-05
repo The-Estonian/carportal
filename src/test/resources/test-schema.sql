@@ -1,10 +1,20 @@
+<<<<<<< HEAD
+=======
+-- Explicitly create sequence for H2 (needed due to case sensitivity)
+CREATE SEQUENCE CAR_ID_SEQ START WITH 1 INCREMENT BY 1;
+
+>>>>>>> origin/sprint-8-tests
 -- Create tables and constraints
 
 -- tables
 -- Table: car
 CREATE TABLE car
 (
+<<<<<<< HEAD
     id              serial        NOT NULL,
+=======
+    id              int DEFAULT NEXTVAL('CAR_ID_SEQ'),
+>>>>>>> origin/sprint-8-tests
     manufacturer_id int           NOT NULL,
     fuel_type_id    int           NOT NULL,
     model           varchar(255)  NOT NULL,
@@ -13,6 +23,9 @@ CREATE TABLE car
     price           int           NOT NULL,
     CONSTRAINT car_pk PRIMARY KEY (id)
 );
+
+-- Ensure 'CAR_ID_SEQ' starts fresh for new inserts
+ALTER SEQUENCE CAR_ID_SEQ RESTART WITH 1;
 
 -- Table: fuel_type
 CREATE TABLE fuel_type

@@ -1,0 +1,50 @@
+[
+  {
+    "id": 5,
+    "manufacturer": {
+      "id": 3,
+      "name": "Toyota"
+    },
+    "fuelType": {
+      "id": 2,
+      "name": "HYBRID",
+      "code": "H"
+    },
+    "model": "Prius",
+    "year": 2020,
+    "emissions": 0.03,
+    "price": 30000
+  },
+  {
+    "id": 1,
+    "manufacturer": {
+      "id": 1,
+      "name": "Tesla"
+    },
+    "fuelType": {
+      "id": 1,
+      "name": "ELECTRIC",
+      "code": "E"
+    },
+    "model": "Model 3",
+    "year": 2020,
+    "emissions": 0.0,
+    "price": 44000
+  },
+  {
+    "id": 4,
+    "manufacturer": {
+      "id": 4,
+      "name": "Ford"
+    },
+    "fuelType": {
+      "id": 3,
+      "name": "PETROL",
+      "code": "P"
+    },
+    "model": "F-150",
+    "year": 2023,
+    "emissions": 0.1,
+    "price": 45000
+  }
+]
