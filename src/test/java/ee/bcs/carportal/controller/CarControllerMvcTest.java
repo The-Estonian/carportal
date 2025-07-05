@@ -35,7 +35,7 @@ class CarControllerMvcTest {
     // @Test
     // @Order(1) // This test will run first
     // public void shouldAddCar() throws Exception {
-    // CarDto newCar = new CarDto( 1, 1, "Model S", 2022, new BigDecimal("0.00"),
+    // CarDto newCar = new CarDto(1, 1, "Model S", 2022, new BigDecimal("0.00"),
     // 55000);
     // String json = new ObjectMapper().writeValueAsString(newCar);
 
@@ -45,7 +45,7 @@ class CarControllerMvcTest {
     // .andExpect(status().isOk());
     // }
 
-    // // Find Car Info Test
+    // Find Car Info Test
     // @Test
     // @Order(2) // This test will run second
     // public void shouldReturnCarInfo() throws Exception {
