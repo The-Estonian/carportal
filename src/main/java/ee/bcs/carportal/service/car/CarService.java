@@ -5,7 +5,6 @@ import ee.bcs.carportal.persistence.car.CarMapperImpl;
 import ee.bcs.carportal.repository.car.CarRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
