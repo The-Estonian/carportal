@@ -49,14 +49,16 @@ class CarControllerMvcTest {
     // @Test
     // @Order(2) // This test will run second
     // public void shouldReturnCarInfo() throws Exception {
-    //     // Load the expected JSON from the file
-    //     Path path = Paths.get(ResourceUtils.getFile("classpath:files/expected_car_info.json").toURI());
-    //     String expectedJson = Files.readString(path);
+    // // Load the expected JSON from the file
+    // Path path =
+    // Paths.get(ResourceUtils.getFile("classpath:files/expected_car_info.json").toURI());
+    // String expectedJson = Files.readString(path);
 
-    //     mockMvc.perform(get("/api/v1/car/{carId}", 1)) // Replace 1 with a valid car ID
-    //             .andExpect(status().isOk())
-    //             .andExpect(content().contentType("application/json"))
-    //             .andExpect(content().json(expectedJson));
+    // mockMvc.perform(get("/api/v1/car/{carId}", 1)) // Replace 1 with a valid car
+    // ID
+    // .andExpect(status().isOk())
+    // .andExpect(content().contentType("application/json"))
+    // .andExpect(content().json(expectedJson));
     // }
 
     // // Find Car Detailed Info Test
