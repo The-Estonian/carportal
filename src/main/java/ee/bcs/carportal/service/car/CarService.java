@@ -3,6 +3,7 @@ package ee.bcs.carportal.service.car;
 import ee.bcs.carportal.persistence.car.Car;
 import ee.bcs.carportal.persistence.car.CarMapper;
 import ee.bcs.carportal.persistence.car.CarRepository;
+import ee.bcs.carportal.service.car.dto.CarDetailedInfo;
 import ee.bcs.carportal.service.car.dto.CarDto;
 import ee.bcs.carportal.service.car.dto.CarInfo;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,12 @@ public class CarService {
     public CarInfo findCarInfo(int carId) {
         Car findCar = carRepository.getReferenceById(carId);
         return carMapper.toCarInfo(findCar);
+    }
+
+    public CarDetailedInfo findCarDetailedInfo(int carId) {
+        Car findCar = carRepository.getReferenceById(carId);
+        CarDetailedInfo convertedCar = carMapper.toCarDetailedInfo(findCar);
+        return convertedCar;
     }
 
     public List<CarInfo> getAllCars() {
