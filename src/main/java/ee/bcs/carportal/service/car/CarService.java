@@ -1,5 +1,7 @@
 package ee.bcs.carportal.service.car;
 
+import ee.bcs.carportal.infrastructure.exception.DatabaseConflictException;
+import ee.bcs.carportal.infrastructure.exception.ResourceNotFoundException;
 import ee.bcs.carportal.persistence.car.Car;
 import ee.bcs.carportal.persistence.car.CarMapper;
 import ee.bcs.carportal.persistence.car.CarRepository;
@@ -25,21 +27,28 @@ public class CarService {
     private final CarMapper carMapper;
 
     public void addCar(CarDto carDto) {
+        if (carRepository.carExistsBy(carDto.getManufacturerId(), carDto.getModel(), carDto.getYear())) {
+            throw new DatabaseConflictException("Car already exists");
+        }
         Car newCar = carMapper.toCar(carDto);
-        FuelType getFuelType = fuelTypeRepository.getReferenceById(carDto.getFuelTypeId());
-        Manufacturer getManufacturer = manufacturerRepository.getReferenceById(carDto.getManufacturerId());
+        FuelType getFuelType = fuelTypeRepository.findById(carDto.getFuelTypeId())
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+        Manufacturer getManufacturer = manufacturerRepository.findById(carDto.getManufacturerId())
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
         newCar.setFuelType(getFuelType);
         newCar.setManufacturer(getManufacturer);
         carRepository.save(newCar);
     };
 
     public CarInfo findCarInfo(int carId) {
-        Car findCar = carRepository.getReferenceById(carId);
+        Car findCar = carRepository.findById(carId)
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
         return carMapper.toCarInfo(findCar);
     }
 
     public CarDetailedInfo findCarDetailedInfo(int carId) {
-        Car findCar = carRepository.getReferenceById(carId);
+        Car findCar = carRepository.findById(carId)
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
         CarDetailedInfo convertedCar = carMapper.toCarDetailedInfo(findCar);
         return convertedCar;
     }
@@ -58,9 +67,12 @@ public class CarService {
     }
 
     public void updateCar(int carId, CarDto carDto) {
-        Car currentCar = carRepository.getReferenceById(carId);
-        FuelType getFuelType = fuelTypeRepository.getReferenceById(carDto.getFuelTypeId());
-        Manufacturer getManufacturer = manufacturerRepository.getReferenceById(carDto.getManufacturerId());
+        Car currentCar = carRepository.findById(carId)
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+        FuelType getFuelType = fuelTypeRepository.findById(carDto.getFuelTypeId())
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+        Manufacturer getManufacturer = manufacturerRepository.findById(carDto.getManufacturerId())
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
         carMapper.updateCar(carDto, currentCar);
         currentCar.setFuelType(getFuelType);
         currentCar.setManufacturer(getManufacturer);
@@ -68,7 +80,8 @@ public class CarService {
     }
 
     public void deleteCar(int carId) {
-        Car currentCar = carRepository.getReferenceById(carId);
+        Car currentCar = carRepository.findById(carId)
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
         carRepository.delete(currentCar);
     }
 
