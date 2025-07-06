@@ -67,4 +67,9 @@ public class CarService {
         carRepository.save(currentCar);
     }
 
+    public void deleteCar(int carId) {
+        Car currentCar = carRepository.getReferenceById(carId);
+        carRepository.delete(currentCar);
+    }
+
 }

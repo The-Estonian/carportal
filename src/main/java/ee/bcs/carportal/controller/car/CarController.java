@@ -6,6 +6,8 @@ import ee.bcs.carportal.service.car.dto.CarDetailedInfo;
 import ee.bcs.carportal.service.car.dto.CarDto;
 import ee.bcs.carportal.service.car.dto.CarInfo;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,6 +60,11 @@ public class CarController {
     @PutMapping("/car/{carId}")
     public void updateCar(@PathVariable int carId, @RequestBody CarDto carDto) {
         carService.updateCar(carId, carDto);
+    }
+
+    @DeleteMapping("/car/{carId}")
+    public void deleteCar(@PathVariable int carId) {
+        carService.deleteCar(carId);
     }
 
 }
