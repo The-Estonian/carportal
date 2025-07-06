@@ -19,16 +19,19 @@ public interface CarMapper {
     @InheritConfiguration(name = "toCarInfo")
     @Mapping(source = "car.fuelType.name", target = "fuelType")
     @Mapping(source = "car.emissions", target = "emissions")
-    @Mapping(source = "car.price", target = "price ")
+    @Mapping(source = "car.price", target = "price")
     public CarDetailedInfo toCarDetailedInfo(Car car);
 
     public List<CarInfo> toCarInfos(List<Car> cars);
 
-    @Mapping(source = "manufacturerId", target = "manufacturer.id")
-    @Mapping(source = "fuelTypeId", target = "fuelType.id")
+    @Mapping(target = "manufacturer", ignore = true)
+    @Mapping(target = "fuelType", ignore = true)
     @Mapping(source = "model", target = "model")
     @Mapping(source = "year", target = "year")
     @Mapping(source = "emissions", target = "emissions")
     @Mapping(source = "price", target = "price")
     public Car toCar(CarDto carDto);
+
+    @InheritConfiguration(name = "toCar")
+    public void updateCar(CarDto carDto, @MappingTarget Car car);
 }

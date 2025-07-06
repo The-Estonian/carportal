@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,6 +53,11 @@ public class CarController {
     public List<Car> findCarsInPriceRangeWithFuelType(@RequestParam Integer from, @RequestParam Integer to,
             @RequestParam String fuelTypeCode) {
         return carService.findCarsInPriceRangeWithFuelType(from, to, fuelTypeCode);
+    }
+
+    @PutMapping("/car/{carId}")
+    public void updateCar(@PathVariable int carId, @RequestBody CarDto carDto) {
+        carService.updateCar(carId, carDto);
     }
 
 }

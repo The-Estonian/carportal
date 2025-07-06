@@ -1,5 +1,7 @@
 package ee.bcs.carportal.persistence.manufacturer;
 
-public class ManufacturerRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ManufacturerRepository extends JpaRepository<Manufacturer, Integer> {
 
 }

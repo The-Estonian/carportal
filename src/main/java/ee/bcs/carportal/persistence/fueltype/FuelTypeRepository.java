@@ -1,5 +1,7 @@
 package ee.bcs.carportal.persistence.fueltype;
 
-public class FuelTypeRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface FuelTypeRepository extends JpaRepository<FuelType, Integer> {
 
 }
