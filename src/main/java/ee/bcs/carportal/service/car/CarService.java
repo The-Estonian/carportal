@@ -15,7 +15,8 @@ public class CarService {
     private final CarMapperImpl carMapper;
 
     public findCarInfo(Integer carId){
-        return null;
+        Car car = carRepository.getReferenceById(carId);
+        return carMapper.toCarInfo(car);
     }
 
     public List<Car> getAllCars() {
