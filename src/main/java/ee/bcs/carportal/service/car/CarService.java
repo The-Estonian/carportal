@@ -2,7 +2,8 @@ package ee.bcs.carportal.service.car;
 
 import ee.bcs.carportal.persistence.car.Car;
 import ee.bcs.carportal.persistence.car.CarMapper;
-import ee.bcs.carportal.repository.car.CarRepository;
+import ee.bcs.carportal.persistence.car.CarRepository;
+import ee.bcs.carportal.service.car.dto.CarDto;
 import ee.bcs.carportal.service.car.dto.CarInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,10 @@ public class CarService {
 
     private final CarRepository carRepository;
     private final CarMapper carMapper;
+
+    public void addCar(CarDto carDto) {
+        carRepository.save(carMapper.toCar(carDto));
+    };
 
     public CarInfo findCarInfo(int carId) {
         Car findCar = carRepository.getReferenceById(carId);
