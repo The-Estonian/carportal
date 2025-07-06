@@ -3,6 +3,7 @@ package ee.bcs.carportal.service.car;
 import ee.bcs.carportal.persistence.car.Car;
 import ee.bcs.carportal.persistence.car.CarMapperImpl;
 import ee.bcs.carportal.repository.car.CarRepository;
+import ee.bcs.carportal.service.car.dto.CarInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -14,7 +15,7 @@ public class CarService {
     private final CarRepository carRepository;
     private final CarMapperImpl carMapper;
 
-    public findCarInfo(Integer carId){
+    public CarInfo findCarInfo(Integer carId){
         Car car = carRepository.getReferenceById(carId);
         return carMapper.toCarInfo(car);
     }
