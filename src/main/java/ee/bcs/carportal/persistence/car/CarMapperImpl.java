@@ -1,5 +1,6 @@
 package ee.bcs.carportal.persistence.car;
 
+import ee.bcs.carportal.persistence.manufacturer.Manufacturer;
 import ee.bcs.carportal.service.car.dto.CarInfo;
 import org.springframework.stereotype.Service;
 
@@ -15,4 +16,13 @@ public class CarMapperImpl {
         dto.setReleaseYear();
         return dto;
     }
+        //Helper to extract manufacturer name safely
+    private String carManufacturerName(Car car){
+        if (car==null){
+            return null;
+        }
+        if (car.getManufacturer() == null) {
+            return null;
+    }
+    return car.getManufacturer().getName();
 }
