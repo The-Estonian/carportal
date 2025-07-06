@@ -5,6 +5,7 @@ import ee.bcs.carportal.service.car.CarService;
 import ee.bcs.carportal.service.car.dto.CarDetailedInfo;
 import ee.bcs.carportal.service.car.dto.CarDto;
 import ee.bcs.carportal.service.car.dto.CarInfo;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,7 +28,7 @@ public class CarController {
     private final CarService carService;
 
     @PostMapping("/car")
-    public void addCar(@RequestBody CarDto carDto) {
+    public void addCar(@Valid @RequestBody CarDto carDto) {
         carService.addCar(carDto);
     }
 
@@ -58,7 +59,7 @@ public class CarController {
     }
 
     @PutMapping("/car/{carId}")
-    public void updateCar(@PathVariable int carId, @RequestBody CarDto carDto) {
+    public void updateCar(@PathVariable int carId, @Valid @RequestBody CarDto carDto) {
         carService.updateCar(carId, carDto);
     }
 
