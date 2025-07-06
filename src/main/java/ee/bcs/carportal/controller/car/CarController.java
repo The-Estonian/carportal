@@ -18,8 +18,6 @@ public class CarController {
     public findCarInfo(@PathVariable Integer carId){
         return carService.findCarInfo(carId);
     }
-
-
     @GetMapping("/cars/all")
     public List<Car> getAllCars() {
         return carService.getAllCars();

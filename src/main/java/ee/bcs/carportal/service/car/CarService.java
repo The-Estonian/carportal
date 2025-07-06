@@ -12,6 +12,11 @@ import java.util.List;
 public class CarService {
 
     private final CarRepository carRepository;
+    private final CarMapperImpl carMapper;
+
+    public findCarInfo(Integer carId){
+        return null;
+    }
 
     public List<Car> getAllCars() {
         return carRepository.findAll();
