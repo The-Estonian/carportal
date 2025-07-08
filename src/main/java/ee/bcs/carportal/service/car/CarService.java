@@ -15,6 +15,7 @@ public class CarService {
     private final CarRepository carRepository;
     private final CarMapper carMapper;
 
+
     public CarInfo findCarInfo(Integer carId){
         Car car = carRepository.getReferenceById(carId);
         return carMapper.toCarInfo(car);
