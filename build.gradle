@@ -42,6 +42,11 @@ dependencies {
 
 }
 
+compileJava {
+    // Ignoring Unmapped Properties (no error, no warning), Inject Spring Components into the Mapper
+    options.compilerArgs += ['-Amapstruct.unmappedTargetPolicy=IGNORE', '-Amapstruct.defaultComponentModel=spring']
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }
