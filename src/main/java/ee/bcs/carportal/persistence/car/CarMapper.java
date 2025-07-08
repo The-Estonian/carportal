@@ -12,8 +12,8 @@ public interface CarMapper {
     @Mapping(target="releaseYear", source="year")
 
     CarInfo toCarInfo(Car car);
-    List<CarInfo> toCarInfos(List<Car> cars)
+    List<CarInfo> toCarInfos(List<Car> cars);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Car partialUpdate(CarInfo1 carInfo1, @MappingTarget Car car);
+    Car partialUpdate(CarInfo carInfo, @MappingTarget Car car);
 }
