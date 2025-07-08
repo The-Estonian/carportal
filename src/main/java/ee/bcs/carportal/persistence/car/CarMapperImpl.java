@@ -3,6 +3,9 @@ package ee.bcs.carportal.persistence.car;
 import ee.bcs.carportal.service.car.dto.CarInfo;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CarMapperImpl {
     public CarInfo toCarInfo(Car car){
@@ -14,6 +17,17 @@ public class CarMapperImpl {
         dto.setModelName(car.getModel());
         dto.setReleaseYear(car.getYear());
         return dto;
+    }
+
+    public List<CarInfo> toCarInfos (List<Car>cars){
+        if (cars==null){
+            return null;
+        }
+        List<CarInfo> dtos=new ArrayList<>(cars.size());
+        for(Car car:cars){
+            dtos.add(toCarInfo(car));
+        }
+        return dtos;
     }
         //Helper to extract manufacturer name safely
     private String carManufacturerName(Car car){
