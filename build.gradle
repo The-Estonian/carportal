@@ -36,6 +36,10 @@ dependencies {
     // H2 Database
     testImplementation 'com.h2database:h2'
 
+    // MapStruct
+    implementation 'org.mapstruct:mapstruct:1.6.3'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+
 }
 
 tasks.named('test') {
