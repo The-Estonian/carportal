@@ -20,8 +20,9 @@ public class CarService {
         return carMapper.toCarInfo(car);
     }
 
-    public List<Car> getAllCars() {
-        return carRepository.findAll();
+    public List<CarInfo> getAllCars() {
+        List<Car> cars = carRepository.findAll();
+        return carMapper.toCarInfos(cars);
     }
 
     public List<Car> findCarsInPriceRange(Integer from, Integer to) {
