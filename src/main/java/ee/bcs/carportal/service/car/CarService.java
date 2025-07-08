@@ -13,7 +13,7 @@ import java.util.List;
 public class CarService {
 
     private final CarRepository carRepository;
-    private final CarMapperImpl carMapper;
+    private final CarMapper carMapper;
 
     public CarInfo findCarInfo(Integer carId){
         Car car = carRepository.getReferenceById(carId);
