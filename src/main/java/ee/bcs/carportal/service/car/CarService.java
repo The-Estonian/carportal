@@ -7,6 +7,7 @@ import ee.bcs.carportal.persistence.fueltype.FuelType;
 import ee.bcs.carportal.persistence.fueltype.FuelTypeRepository;
 import ee.bcs.carportal.persistence.manufacturer.Manufacturer;
 import ee.bcs.carportal.persistence.manufacturer.ManufacturerRepository;
+import ee.bcs.carportal.service.car.dto.CarDetailedInfo;
 import ee.bcs.carportal.service.car.dto.CarDto;
 import ee.bcs.carportal.service.car.dto.CarInfo;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,11 @@ public class CarService {
         car.setFuelType(fuelType);
 
         carRepository.save(car);
+    }
+
+    public CarDetailedInfo findCarDetailedInfo(Integer carId){
+        Car car =carRepository.getReferenceById(carId);
+                return carMapper.toCarDetailedInfo(car);
     }
 
     public CarInfo findCarInfo(Integer carId){

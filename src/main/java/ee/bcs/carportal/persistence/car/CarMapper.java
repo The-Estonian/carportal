@@ -1,5 +1,6 @@
 package ee.bcs.carportal.persistence.car;
 
+import ee.bcs.carportal.service.car.dto.CarDetailedInfo;
 import ee.bcs.carportal.service.car.dto.CarDto;
 import ee.bcs.carportal.service.car.dto.CarInfo;
 import org.mapstruct.*;
@@ -20,4 +21,12 @@ public interface CarMapper {
     @Mapping(source = "emissions", target = "emissions")
     @Mapping(source = "price",     target = "price")
     Car toCar(CarDto carDto);
+
+    CarDetailedInfo toCarDetailedInfo(Car car);
+
+    @InheritConfiguration(name = "toCarInfo")
+    @Mapping(target = "fuelType", source = "fuelType.name")
+    @Mapping(target = "emissions", source = "emissions")
+    @Mapping(target = "price",     source = "price")
+
 }
