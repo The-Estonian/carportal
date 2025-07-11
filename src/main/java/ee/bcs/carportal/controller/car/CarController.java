@@ -17,8 +17,8 @@ public class CarController {
 
     private final CarService carService;
 
-    @GetMapping("/car/detailed-info/{cardId}"){
-        public CarDetailedInfo findCarDetailedInfo(@PathVariable Integer carId)
+    @GetMapping("/car/detailed-info/{carId}")
+        public CarDetailedInfo findCarDetailedInfo(@PathVariable("carId")  Integer carId){
         return carService.findCarDetailedInfo(carId);
     }
 
