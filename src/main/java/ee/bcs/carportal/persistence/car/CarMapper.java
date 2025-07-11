@@ -1,5 +1,6 @@
 package ee.bcs.carportal.persistence.car;
 
+import ee.bcs.carportal.service.car.dto.CarDto;
 import ee.bcs.carportal.service.car.dto.CarInfo;
 import org.mapstruct.*;
 
@@ -14,6 +15,9 @@ public interface CarMapper {
     CarInfo toCarInfo(Car car);
     List<CarInfo> toCarInfos(List<Car> cars);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Car partialUpdate(CarInfo carInfo, @MappingTarget Car car);
+    @Mapping(source = "model",     target = "model")
+    @Mapping(source = "year",      target = "year")
+    @Mapping(source = "emissions", target = "emissions")
+    @Mapping(source = "price",     target = "price")
+    Car toEntity(CarDto carDto);
 }
