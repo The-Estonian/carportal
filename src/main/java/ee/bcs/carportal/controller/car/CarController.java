@@ -2,6 +2,7 @@ package ee.bcs.carportal.controller.car;
 
 import ee.bcs.carportal.persistence.car.Car;
 import ee.bcs.carportal.service.car.CarService;
+import ee.bcs.carportal.service.car.dto.CarDetailedInfo;
 import ee.bcs.carportal.service.car.dto.CarDto;
 import ee.bcs.carportal.service.car.dto.CarInfo;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,11 @@ import java.util.List;
 public class CarController {
 
     private final CarService carService;
+
+    @GetMapping("/car/detailed-info/{cardId}"){
+        public CarDetailedInfo findCarDetailedInfo(@PathVariable Integer carId)
+        return carService.findCarDetailedInfo(carId);
+    }
 
     @PostMapping("/car")
     public void addCar(@RequestBody CarDto carDto){

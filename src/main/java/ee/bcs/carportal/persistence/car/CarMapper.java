@@ -22,11 +22,9 @@ public interface CarMapper {
     @Mapping(source = "price",     target = "price")
     Car toCar(CarDto carDto);
 
-    CarDetailedInfo toCarDetailedInfo(Car car);
-
     @InheritConfiguration(name = "toCarInfo")
     @Mapping(target = "fuelType", source = "fuelType.name")
     @Mapping(target = "emissions", source = "emissions")
     @Mapping(target = "price",     source = "price")
-
+    CarDetailedInfo toCarDetailedInfo(Car car);
 }
