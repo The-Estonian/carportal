@@ -19,5 +19,5 @@ public interface CarMapper {
     @Mapping(source = "year",      target = "year")
     @Mapping(source = "emissions", target = "emissions")
     @Mapping(source = "price",     target = "price")
-    Car toEntity(CarDto carDto);
+    Car toCar(CarDto carDto);
 }
