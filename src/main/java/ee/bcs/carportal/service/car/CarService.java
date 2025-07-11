@@ -3,6 +3,8 @@ package ee.bcs.carportal.service.car;
 import ee.bcs.carportal.persistence.car.Car;
 import ee.bcs.carportal.persistence.car.CarMapper;
 import ee.bcs.carportal.persistence.car.CarRepository;
+import ee.bcs.carportal.persistence.fueltype.FuelTypeRepository;
+import ee.bcs.carportal.persistence.manufacturer.ManufacturerRepository;
 import ee.bcs.carportal.service.car.dto.CarInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ public class CarService {
 
     private final CarRepository carRepository;
     private final CarMapper carMapper;
+    private final ManufacturerRepository manufacturerRepository;
+    private final FuelTypeRepository fuelTypeRepository;
 
 
     public CarInfo findCarInfo(Integer carId){
