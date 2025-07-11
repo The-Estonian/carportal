@@ -3,8 +3,11 @@ package ee.bcs.carportal.service.car;
 import ee.bcs.carportal.persistence.car.Car;
 import ee.bcs.carportal.persistence.car.CarMapper;
 import ee.bcs.carportal.persistence.car.CarRepository;
+import ee.bcs.carportal.persistence.fueltype.FuelType;
 import ee.bcs.carportal.persistence.fueltype.FuelTypeRepository;
+import ee.bcs.carportal.persistence.manufacturer.Manufacturer;
 import ee.bcs.carportal.persistence.manufacturer.ManufacturerRepository;
+import ee.bcs.carportal.service.car.dto.CarDto;
 import ee.bcs.carportal.service.car.dto.CarInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,29 @@ public class CarService {
     private final ManufacturerRepository manufacturerRepository;
     private final FuelTypeRepository fuelTypeRepository;
 
+    public void addCar(CarDto carDto){
+        Car car = carMapper.toCar(carDto);
+
+        Manufacturer manufacturer = manufacturerRepository
+                .findById(carDto.getManufacturerId())
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Manufacturer with ID "
+                                + carDto.getManufacturerId()
+                                + " not found"));
+
+
+        FuelType fuelType = fuelTypeRepository
+                .findById(carDto.getFuelTypeId())
+                .orElseThrow(() ->
+                        new IllegalArgumentException("FuelType with ID "
+                                + carDto.getFuelTypeId()
+                                + " not found"));
+
+        car.setManufacturer(manufacturer);
+        car.setFuelType(fuelType);
+
+        carRepository.save(car);
+    }
 
     public CarInfo findCarInfo(Integer carId){
         Car car = carRepository.getReferenceById(carId);

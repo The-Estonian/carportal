@@ -15,6 +15,10 @@ public class CarController {
 
     private final CarService carService;
 
+    @PostMapping("/car")
+    public void addCar(RequestBody CarDto carDto){
+        carService.addCar(carDto);
+    }
 
     @GetMapping("/car/{carId}")
     public CarInfo findCarInfo(@PathVariable("carId") Integer carId){
