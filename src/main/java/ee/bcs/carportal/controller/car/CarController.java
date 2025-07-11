@@ -2,6 +2,7 @@ package ee.bcs.carportal.controller.car;
 
 import ee.bcs.carportal.persistence.car.Car;
 import ee.bcs.carportal.service.car.CarService;
+import ee.bcs.carportal.service.car.dto.CarDto;
 import ee.bcs.carportal.service.car.dto.CarInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class CarController {
     private final CarService carService;
 
     @PostMapping("/car")
-    public void addCar(RequestBody CarDto carDto){
+    public void addCar(@RequestBody CarDto carDto){
         carService.addCar(carDto);
     }
 
