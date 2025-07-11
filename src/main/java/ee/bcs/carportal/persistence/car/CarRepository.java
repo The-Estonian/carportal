@@ -1,6 +1,5 @@
-package ee.bcs.carportal.repository.car;
+package ee.bcs.carportal.persistence.car;
 
-import ee.bcs.carportal.persistence.car.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
