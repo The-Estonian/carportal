@@ -15,5 +15,5 @@ import java.math.BigDecimal;
 public class CarDetailedInfo extends CarInfo{
     private String fuelType;
     private BigDecimal emissions;
-    private  Integer price;
+    private Integer price;
 }
