@@ -27,7 +27,7 @@ public class CarService {
         Car car = carRepository.findById(carId)
                 .orElseThrow(() -> new IllegalArgumentException("Car not found: " + carId));
 
-        carMapper.updateCar(CarDto,car);
+        carMapper.updateCar(carDto,car);
 
         Manufacturer m = manufacturerRepository.findById(carDto.getManufacturerId())
                 .orElseThrow(() -> new IllegalArgumentException(

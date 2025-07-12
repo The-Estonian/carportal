@@ -34,5 +34,4 @@ public interface CarMapper {
     @Mapping(target = "emissions", source = "emissions")
     @Mapping(target = "price",     source = "price")
     void updateCar(CarDto carDto, @MappingTarget Car car);
-
 }

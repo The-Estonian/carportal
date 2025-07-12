@@ -19,7 +19,7 @@ public class CarController {
 
     @PutMapping("/car/{carId}")
     public void updateCar(@PathVariable Integer carId,@RequestBody CarDto carDto){
-        return carService.updateCar(carId,carDto);
+        carService.updateCar(carId,carDto);
     }
 
     @GetMapping("/car/detailed-info/{carId}")
