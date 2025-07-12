@@ -29,9 +29,11 @@ public class CarService {
 
         carMapper.updateCar(carDto,car);
 
-        Manufacturer m = manufacturerRepository.findById(carId)
+        Manufacturer m = manufacturerRepository.findById(carDto.getManufacturerId())
                 .orElseThrow(() -> new IllegalArgumentException(
                         "No manufacturer: " + carDto.getManufacturerId()));
+
+        car.setManufacturer(m);
     }
 
     public void addCar(CarDto carDto){
