@@ -1,4 +1,3 @@
-
 package ee.bcs.carportal.infrastructure;
 
 import lombok.AllArgsConstructor;
