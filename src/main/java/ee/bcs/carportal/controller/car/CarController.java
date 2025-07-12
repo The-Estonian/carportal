@@ -17,6 +17,11 @@ public class CarController {
 
     private final CarService carService;
 
+    @PutMapping("/car/{carId}")
+    public void updateCar(@PathVariable Integer carId,@RequestBody CarDto carDto){
+        return carService.updateCar(carId,carDto);
+    }
+
     @GetMapping("/car/detailed-info/{carId}")
         public CarDetailedInfo findCarDetailedInfo(@PathVariable("carId")  Integer carId){
         return carService.findCarDetailedInfo(carId);

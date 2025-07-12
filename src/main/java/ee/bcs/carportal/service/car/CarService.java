@@ -23,17 +23,19 @@ public class CarService {
     private final ManufacturerRepository manufacturerRepository;
     private final FuelTypeRepository fuelTypeRepository;
 
-    public void updateCar(Integer carId,carDto carDto){
+    public void updateCar(Integer carId,CarDto carDto){
         Car car = carRepository.findById(carId)
                 .orElseThrow(() -> new IllegalArgumentException("Car not found: " + carId));
 
-        carMapper.updateCar(carDto,car);
+        carMapper.updateCar(CarDto,car);
 
         Manufacturer m = manufacturerRepository.findById(carDto.getManufacturerId())
                 .orElseThrow(() -> new IllegalArgumentException(
                         "No manufacturer: " + carDto.getManufacturerId()));
 
         FuelType f = fuelTypeRepository.findById(carDto.getFuelTypeId())
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "No fuelType: " + carDto.getFuelTypeId()));
 
         car.setManufacturer(m);
         car.setFuelType(f);
