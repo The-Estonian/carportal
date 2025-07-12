@@ -27,4 +27,12 @@ public interface CarMapper {
     @Mapping(target = "emissions", source = "emissions")
     @Mapping(target = "price",     source = "price")
     CarDetailedInfo toCarDetailedInfo(Car car);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "model",     source = "carDto.model")
+    @Mapping(target = "year",      source = "carDto.year")
+    @Mapping(target = "emissions", source = "carDto.emissions")
+    @Mapping(target = "price",     source = "carDto.price")
+    void updateCar(CarDto carDto, @MappingTarget Car car);
+
 }

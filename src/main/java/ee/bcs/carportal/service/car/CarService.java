@@ -23,6 +23,12 @@ public class CarService {
     private final ManufacturerRepository manufacturerRepository;
     private final FuelTypeRepository fuelTypeRepository;
 
+    public void updateCar(Integer carId,carDto carDto){
+        Car car = carRepository.findById(carId)
+                .orElseThrow(() -> new IllegalArgumentException("Car not found: " + carId));
+
+    }
+
     public void addCar(CarDto carDto){
         Car car = carMapper.toCar(carDto);
 
