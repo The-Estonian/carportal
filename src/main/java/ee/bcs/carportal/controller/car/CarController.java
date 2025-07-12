@@ -17,6 +17,11 @@ public class CarController {
 
     private final CarService carService;
 
+    @DeleteMapping("/car/{carId}")
+    public void deleteCar(@PathVariable Integer carId){
+        carService.deleteCar(carId);
+    }
+
     @PutMapping("/car/{carId}")
     public void updateCar(@PathVariable Integer carId,@RequestBody CarDto carDto){
         carService.updateCar(carId,carDto);
