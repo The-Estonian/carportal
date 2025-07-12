@@ -33,7 +33,12 @@ public class CarService {
                 .orElseThrow(() -> new IllegalArgumentException(
                         "No manufacturer: " + carDto.getManufacturerId()));
 
+        FuelType f = fuelTypeRepository.findById(carDto.getFuelTypeId())
+
         car.setManufacturer(m);
+        car.setFuelType(f);
+
+        carRepository.save(car);
     }
 
     public void addCar(CarDto carDto){
