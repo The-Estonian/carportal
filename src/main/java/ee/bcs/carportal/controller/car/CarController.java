@@ -39,8 +39,8 @@ public class CarController {
     @GetMapping("/cars/price-range")
     public ResponseEntity<List<Car>> findCarsInPriceRange(
             @RequestParam Integer from,
-            @RequestParam Integer to
-    ) {
+            @RequestParam Integer to) {
+
         return ResponseEntity.ok(carService.findCarsInPriceRange(from, to));
     }
 
@@ -48,8 +48,8 @@ public class CarController {
     public ResponseEntity<List<Car>> findCarsInPriceRangeWithFuelType(
             @RequestParam Integer from,
             @RequestParam Integer to,
-            @RequestParam String fuelTypeCode
-    ) {
+            @RequestParam String fuelTypeCode) {
+
         return ResponseEntity.ok(carService.findCarsInPriceRangeWithFuelType(from, to, fuelTypeCode));
     }
 
@@ -62,8 +62,8 @@ public class CarController {
     @PutMapping("/car/{carId}")
     public ResponseEntity<Void> updateCar(
             @PathVariable Integer carId,
-            @RequestBody CarDto carDto
-    ) {
+            @RequestBody CarDto carDto) {
+
         carService.updateCar(carId, carDto);
         return ResponseEntity.ok().build();
     }
