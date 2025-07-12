@@ -23,6 +23,13 @@ public class CarService {
     private final ManufacturerRepository manufacturerRepository;
     private final FuelTypeRepository fuelTypeRepository;
 
+    public void deleteCar(Integer carId){
+        if(!carRepository.existsById(carId)){
+            throw new IllegalArgumentException("Car not found: " + carId);
+        }
+        carRepository.deleteById(carId);
+    }
+
     public void updateCar(Integer carId,CarDto carDto){
         Car car = carRepository.findById(carId)
                 .orElseThrow(() -> new IllegalArgumentException("Car not found: " + carId));
