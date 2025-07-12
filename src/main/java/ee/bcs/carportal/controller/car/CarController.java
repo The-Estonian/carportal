@@ -1,7 +1,6 @@
 package ee.bcs.carportal.controller.car;
 
 import ee.bcs.carportal.infrastructure.ApiError;
-import ee.bcs.carportal.persistence.car.Car;
 import ee.bcs.carportal.service.car.CarService;
 import ee.bcs.carportal.service.car.dto.CarDto;
 import ee.bcs.carportal.service.car.dto.CarInfo;
@@ -42,8 +41,7 @@ public class CarController {
     })
     public ResponseEntity<CarInfo> findCarInfo(
             @Parameter(description = "ID of the car to retrieve", required = true)
-            @PathVariable Integer carId
-    ) {
+            @PathVariable Integer carId) {
         CarInfo dto = carService.findCarInfo(carId);
         return ResponseEntity.ok(dto);
     }
@@ -51,8 +49,7 @@ public class CarController {
     @GetMapping("/car/detailed-info/{carId}")
     @Operation(
             summary     = "Retrieves detailed car information",
-            description = "Returns comprehensive details of a car using carId"
-    )
+            description = "Returns comprehensive details of a car using carId")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Car found"),
             @ApiResponse(
@@ -68,10 +65,10 @@ public class CarController {
         return ResponseEntity.ok(dto);
     }
 
-    @@GetMapping("/cars/all")
+    @GetMapping("/cars/all")
     @Operation(
             summary     = "Fetches a list of all cars",
-            description = "Returns a list of all available cars in the system"
+            description = "Returns a list of all available cars in the system")
 
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "List of cars retrieved successfully")
@@ -83,19 +80,43 @@ public class CarController {
 
 
     @GetMapping("/cars/price-range")
-    public ResponseEntity<List<Car>> findCarsInPriceRange(
+    @Operation(
+            summary     = "Retrieves cars within a specified price range",
+            description = "Returns a list of cars with prices between from and to")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "List of cars retrieved successfully"),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid price range",
+                    content = @Content(schema = @Schema(implementation = ApiError.class)))
+    })
+    public ResponseEntity<List<CarInfo>> findCarsInPriceRange(
+            @Parameter(description = "Minimum price (inclusive)", example = "10000", required = true)
             @RequestParam Integer from,
+            @Parameter(description = "Maximum price (inclusive)", example = "50000", required = true)
             @RequestParam Integer to) {
-
         return ResponseEntity.ok(carService.findCarsInPriceRange(from, to));
     }
 
     @GetMapping("/cars/price-range-fueltype")
-    public ResponseEntity<List<Car>> findCarsInPriceRangeWithFuelType(
+    @Operation(
+            summary     = "Retrieves cars based on price and fuel type",
+            description = "Returns a list of cars within a price range that match the specified fuel type"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "List of cars retrieved successfully"),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid input data",
+                    content = @Content(schema = @Schema(implementation = ApiError.class)))
+    })
+    public ResponseEntity<List<CarInfo>> findCarsInPriceRangeWithFuelType(
+            @Parameter(description = "Minimum price (inclusive)", example = "10000", required = true)
             @RequestParam Integer from,
+            @Parameter(description = "Maximum price (inclusive)", example = "50000", required = true)
             @RequestParam Integer to,
+            @Parameter(description = "Fuel type code (E, H, P)", example = "E", required = true)
             @RequestParam String fuelTypeCode) {
-
         return ResponseEntity.ok(carService.findCarsInPriceRangeWithFuelType(from, to, fuelTypeCode));
     }
 
@@ -112,23 +133,52 @@ public class CarController {
             )
     })
     public ResponseEntity<Void> addCar(
-            @Valid @RequestBody CarDto carDto
-    ) {
+            @Valid @RequestBody CarDto carDto) {
         carService.addCar(carDto);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/car/{carId}")
+    @Operation(
+            summary     = "Updates car details",
+            description = "Modifies an existing car record identified by carId with new data")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Car updated successfully"),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Car not found",
+                    content = @Content(schema = @Schema(implementation = ApiError.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid input data",
+                    content = @Content(schema = @Schema(implementation = ApiError.class))
+            )
+    })
     public ResponseEntity<Void> updateCar(
+            @Parameter(description = "ID of the car to update", required = true)
             @PathVariable Integer carId,
-            @Valid @RequestBody CarDto carDto) {
-
+            @Valid @RequestBody CarDto carDto
+    ) {
         carService.updateCar(carId, carDto);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/car/{carId}")
-    public ResponseEntity<Void> deleteCar(@PathVariable Integer carId) {
+    @Operation(
+            summary     = "Removes a car from the system",
+            description = "Deletes the car entry associated with the given carId")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Car deleted successfully"),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Car not found",
+                    content = @Content(schema = @Schema(implementation = ApiError.class))
+            )
+    })
+    public ResponseEntity<Void> deleteCar(
+            @Parameter(description = "ID of the car to delete", required = true)
+            @PathVariable Integer carId) {
         carService.deleteCar(carId);
         return ResponseEntity.ok().build();
     }

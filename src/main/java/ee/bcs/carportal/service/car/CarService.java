@@ -87,12 +87,14 @@ public class CarService {
         return carMapper.toCarInfos(carRepository.findAll());
     }
 
-    public List<Car> findCarsInPriceRange(Integer from, Integer to) {
-        return carRepository.findCarsBy(from, to);
+    public List<CarInfo> findCarsInPriceRange(Integer from, Integer to) {
+        List<Car> cars = carRepository.findCarsBy(from, to);
+        return carMapper.toCarInfos(cars);
     }
 
-    public List<Car> findCarsInPriceRangeWithFuelType(Integer from, Integer to, String fuelTypeCode) {
-        return carRepository.findCarsBy(from, to, fuelTypeCode);
+    public List<CarInfo> findCarsInPriceRangeWithFuelType(Integer from, Integer to, String fuelTypeCode) {
+        List<Car> cars = carRepository.findCarsBy(from, to, fuelTypeCode);
+        return carMapper.toCarInfos(cars);
     }
 }
 
