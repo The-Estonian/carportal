@@ -14,6 +14,7 @@ import ee.bcs.carportal.service.car.dto.CarInfo;
 import ee.bcs.carportal.service.car.dto.CarDetailedInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ee.bcs.carportal.infrastructure.Error;
 
 import java.util.List;
 
@@ -28,22 +29,22 @@ public class CarService {
 
     public void deleteCar(Integer carId) {
         if (!carRepository.existsById(carId)) {
-            throw new ResourceNotFoundException("Resource not found");
+            throw new ResourceNotFoundException(Error.RESOURCE_NOT_FOUND);
         }
         carRepository.deleteById(carId);
     }
 
     public void updateCar(Integer carId, CarDto carDto) {
         Car car = carRepository.findById(carId)
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(Error.RESOURCE_NOT_FOUND));
 
         carMapper.updateCar(carDto, car);
 
         Manufacturer m = manufacturerRepository.findById(carDto.getManufacturerId())
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(Error.RESOURCE_NOT_FOUND));
 
         FuelType f = fuelTypeRepository.findById(carDto.getFuelTypeId())
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(Error.RESOURCE_NOT_FOUND));
 
         car.setManufacturer(m);
         car.setFuelType(f);
@@ -53,16 +54,16 @@ public class CarService {
 
     public void addCar(CarDto carDto) {
         if (carRepository.carExistsBy(carDto.getManufacturerId(), carDto.getModel(), carDto.getYear())) {
-            throw new DatabaseConflictException("Car already exists");
+            throw new DatabaseConflictException(Error.CAR_EXISTS);
         }
 
         Car car = carMapper.toCar(carDto);
 
         Manufacturer m = manufacturerRepository.findById(carDto.getManufacturerId())
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(Error.RESOURCE_NOT_FOUND));
 
         FuelType f = fuelTypeRepository.findById(carDto.getFuelTypeId())
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(Error.RESOURCE_NOT_FOUND));
 
         car.setManufacturer(m);
         car.setFuelType(f);
@@ -72,13 +73,13 @@ public class CarService {
 
     public CarDetailedInfo findCarDetailedInfo(Integer carId) {
         Car car = carRepository.findById(carId)
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(Error.RESOURCE_NOT_FOUND));
         return carMapper.toCarDetailedInfo(car);
     }
 
     public CarInfo findCarInfo(Integer carId) {
         Car car = carRepository.findById(carId)
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(Error.RESOURCE_NOT_FOUND));
         return carMapper.toCarInfo(car);
     }
 
