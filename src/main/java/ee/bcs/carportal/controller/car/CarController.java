@@ -5,6 +5,7 @@ import ee.bcs.carportal.service.car.CarService;
 import ee.bcs.carportal.service.car.dto.CarDto;
 import ee.bcs.carportal.service.car.dto.CarInfo;
 import ee.bcs.carportal.service.car.dto.CarDetailedInfo;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,18 +55,18 @@ public class CarController {
     }
 
     @PostMapping("/car")
-    public ResponseEntity<Void> addCar(@RequestBody CarDto carDto) {
+    public ResponseEntity<Void> addCar(@Valid @RequestBody CarDto carDto) {
         carService.addCar(carDto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(201).build();
     }
 
     @PutMapping("/car/{carId}")
     public ResponseEntity<Void> updateCar(
             @PathVariable Integer carId,
-            @RequestBody CarDto carDto) {
+            @Valid @RequestBody CarDto carDto) {
 
         carService.updateCar(carId, carDto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/car/{carId}")
