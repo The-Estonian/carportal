@@ -1,0 +1,8 @@
+{
+  "make": "Tesla",
+  "modelName": "Model 3",
+  "releaseYear": 2020,
+  "fuelType": "ELECTRIC",
+  "emissions": 0.00,
+  "price": 44000
+}

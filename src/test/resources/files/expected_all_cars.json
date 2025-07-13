@@ -1,0 +1,7 @@
+[
+  { "make": "Tesla",  "modelName": "Model 3",  "releaseYear": 2020 },
+  { "make": "Honda",  "modelName": "Civic",    "releaseYear": 2021 },
+  { "make": "Toyota", "modelName": "Camry",    "releaseYear": 2022 },
+  { "make": "Ford",   "modelName": "F-150",    "releaseYear": 2023 },
+  { "make": "Toyota", "modelName": "Prius",    "releaseYear": 2020 }
+]
