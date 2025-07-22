@@ -1,34 +1,34 @@
 [
-  {
-    "id": 2,
-    "manufacturer": {
-      "id": 2,
-      "name": "Honda"
+    {
+        "id": 2,
+        "manufacturer": {
+            "id": 2,
+            "name": "Honda"
+        },
+        "fuelType": {
+            "id": 3,
+            "name": "PETROL",
+            "code": "P"
+        },
+        "model": "Civic",
+        "year": 2021,
+        "emissions": 0.05,
+        "price": 25000
     },
-    "fuelType": {
-      "id": 3,
-      "name": "PETROL",
-      "code": "P"
-    },
-    "model": "Civic",
-    "year": 2021,
-    "emissions": 0.05,
-    "price": 25000
-  },
-  {
-    "id": 3,
-    "manufacturer": {
-      "id": 3,
-      "name": "Toyota"
-    },
-    "fuelType": {
-      "id": 3,
-      "name": "PETROL",
-      "code": "P"
-    },
-    "model": "Camry",
-    "year": 2022,
-    "emissions": 0.04,
-    "price": 28000
-  }
+    {
+        "id": 3,
+        "manufacturer": {
+            "id": 3,
+            "name": "Toyota"
+        },
+        "fuelType": {
+            "id": 3,
+            "name": "PETROL",
+            "code": "P"
+        },
+        "model": "Camry",
+        "year": 2022,
+        "emissions": 0.04,
+        "price": 28000
+    }
 ]

@@ -1,18 +1,18 @@
 [
-  {
-    "id": 2,
-    "manufacturer": {
-      "id": 2,
-      "name": "Honda"
-    },
-    "fuelType": {
-      "id": 3,
-      "name": "PETROL",
-      "code": "P"
-    },
-    "model": "Civic",
-    "year": 2021,
-    "emissions": 0.05,
-    "price": 25000
-  }
+    {
+        "id": 2,
+        "manufacturer": {
+            "id": 2,
+            "name": "Honda"
+        },
+        "fuelType": {
+            "id": 3,
+            "name": "PETROL",
+            "code": "P"
+        },
+        "model": "Civic",
+        "year": 2021,
+        "emissions": 0.05,
+        "price": 25000
+    }
 ]

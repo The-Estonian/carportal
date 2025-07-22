@@ -9,11 +9,12 @@ import ee.bcs.carportal.persistence.fueltype.FuelType;
 import ee.bcs.carportal.persistence.fueltype.FuelTypeRepository;
 import ee.bcs.carportal.persistence.manufacturer.Manufacturer;
 import ee.bcs.carportal.persistence.manufacturer.ManufacturerRepository;
-import ee.bcs.carportal.service.car.dto.CarDetailedInfo;
 import ee.bcs.carportal.service.car.dto.CarDto;
 import ee.bcs.carportal.service.car.dto.CarInfo;
+import ee.bcs.carportal.service.car.dto.CarDetailedInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ee.bcs.carportal.infrastructure.Error;
 
 import java.util.List;
 
@@ -22,67 +23,77 @@ import java.util.List;
 public class CarService {
 
     private final CarRepository carRepository;
-    private final FuelTypeRepository fuelTypeRepository;
-    private final ManufacturerRepository manufacturerRepository;
     private final CarMapper carMapper;
+    private final ManufacturerRepository manufacturerRepository;
+    private final FuelTypeRepository fuelTypeRepository;
+
+    public void deleteCar(Integer carId) {
+        if (!carRepository.existsById(carId)) {
+            throw new ResourceNotFoundException(Error.RESOURCE_NOT_FOUND);
+        }
+        carRepository.deleteById(carId);
+    }
+
+    public void updateCar(Integer carId, CarDto carDto) {
+        Car car = carRepository.findById(carId)
+                .orElseThrow(() -> new ResourceNotFoundException(Error.RESOURCE_NOT_FOUND));
+
+        carMapper.updateCar(carDto, car);
+
+        Manufacturer m = manufacturerRepository.findById(carDto.getManufacturerId())
+                .orElseThrow(() -> new ResourceNotFoundException(Error.RESOURCE_NOT_FOUND));
+
+        FuelType f = fuelTypeRepository.findById(carDto.getFuelTypeId())
+                .orElseThrow(() -> new ResourceNotFoundException(Error.RESOURCE_NOT_FOUND));
+
+        car.setManufacturer(m);
+        car.setFuelType(f);
+
+        carRepository.save(car);
+    }
 
     public void addCar(CarDto carDto) {
         if (carRepository.carExistsBy(carDto.getManufacturerId(), carDto.getModel(), carDto.getYear())) {
-            throw new DatabaseConflictException("Car already exists");
+            throw new DatabaseConflictException(Error.CAR_EXISTS);
         }
-        Car newCar = carMapper.toCar(carDto);
-        FuelType getFuelType = fuelTypeRepository.findById(carDto.getFuelTypeId())
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
-        Manufacturer getManufacturer = manufacturerRepository.findById(carDto.getManufacturerId())
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
-        newCar.setFuelType(getFuelType);
-        newCar.setManufacturer(getManufacturer);
-        carRepository.save(newCar);
-    };
 
-    public CarInfo findCarInfo(int carId) {
-        Car findCar = carRepository.findById(carId)
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
-        return carMapper.toCarInfo(findCar);
+        Car car = carMapper.toCar(carDto);
+
+        Manufacturer m = manufacturerRepository.findById(carDto.getManufacturerId())
+                .orElseThrow(() -> new ResourceNotFoundException(Error.RESOURCE_NOT_FOUND));
+
+        FuelType f = fuelTypeRepository.findById(carDto.getFuelTypeId())
+                .orElseThrow(() -> new ResourceNotFoundException(Error.RESOURCE_NOT_FOUND));
+
+        car.setManufacturer(m);
+        car.setFuelType(f);
+
+        carRepository.save(car);
     }
 
-    public CarDetailedInfo findCarDetailedInfo(int carId) {
-        Car findCar = carRepository.findById(carId)
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
-        CarDetailedInfo convertedCar = carMapper.toCarDetailedInfo(findCar);
-        return convertedCar;
+    public CarDetailedInfo findCarDetailedInfo(Integer carId) {
+        Car car = carRepository.findById(carId)
+                .orElseThrow(() -> new ResourceNotFoundException(Error.RESOURCE_NOT_FOUND));
+        return carMapper.toCarDetailedInfo(car);
+    }
+
+    public CarInfo findCarInfo(Integer carId) {
+        Car car = carRepository.findById(carId)
+                .orElseThrow(() -> new ResourceNotFoundException(Error.RESOURCE_NOT_FOUND));
+        return carMapper.toCarInfo(car);
     }
 
     public List<CarInfo> getAllCars() {
-        List<Car> allCars = carRepository.findAll();
-        return carMapper.toCarInfos(allCars);
+        return carMapper.toCarInfos(carRepository.findAll());
     }
 
-    public List<Car> findCarsInPriceRange(Integer from, Integer to) {
-        return carRepository.findCarsBy(from, to);
+    public List<CarInfo> findCarsInPriceRange(Integer from, Integer to) {
+        List<Car> cars = carRepository.findCarsBy(from, to);
+        return carMapper.toCarInfos(cars);
     }
 
-    public List<Car> findCarsInPriceRangeWithFuelType(Integer from, Integer to, String fuelTypeCode) {
-        return carRepository.findCarsBy(from, to, fuelTypeCode);
+    public List<CarInfo> findCarsInPriceRangeWithFuelType(Integer from, Integer to, String fuelTypeCode) {
+        List<Car> cars = carRepository.findCarsBy(from, to, fuelTypeCode);
+        return carMapper.toCarInfos(cars);
     }
-
-    public void updateCar(int carId, CarDto carDto) {
-        Car currentCar = carRepository.findById(carId)
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
-        FuelType getFuelType = fuelTypeRepository.findById(carDto.getFuelTypeId())
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
-        Manufacturer getManufacturer = manufacturerRepository.findById(carDto.getManufacturerId())
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
-        carMapper.updateCar(carDto, currentCar);
-        currentCar.setFuelType(getFuelType);
-        currentCar.setManufacturer(getManufacturer);
-        carRepository.save(currentCar);
-    }
-
-    public void deleteCar(int carId) {
-        Car currentCar = carRepository.findById(carId)
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
-        carRepository.delete(currentCar);
-    }
-
 }

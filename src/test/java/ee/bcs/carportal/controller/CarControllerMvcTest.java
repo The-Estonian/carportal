@@ -22,32 +22,36 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class) // Enable ordering with @Order
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)  // Enable ordering with @Order
 class CarControllerMvcTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    // // Add Car Test
+    // Add Car Test
     @Test
-    @Order(1) // This test will run first
+    @Order(1)  // This test will run first
     public void shouldAddCar() throws Exception {
-        CarDto newCar = new CarDto(1, 1, "Model S", 2022, new BigDecimal("0.00"),
-                55000);
+        CarDto newCar = new CarDto( 1, 1, "Model S", 2022, new BigDecimal("0.00"), 55000);
         String json = new ObjectMapper().writeValueAsString(newCar);
 
         mockMvc.perform(post("/api/v1/car")
-                .contentType("application/json")
-                .content(json))
+                        .contentType("application/json")
+                        .content(json))
                 .andExpect(status().isOk());
     }
 
     // Find Car Info Test
     @Test
-    @Order(2) // This test will run second
+    @Order(2)  // This test will run second
     public void shouldReturnCarInfo() throws Exception {
         // Load the expected JSON from the file
         Path path = Paths.get(ResourceUtils.getFile("classpath:files/expected_car_info.json").toURI());
@@ -59,9 +63,9 @@ class CarControllerMvcTest {
                 .andExpect(content().json(expectedJson));
     }
 
-    // // Find Car Detailed Info Test
+    // Find Car Detailed Info Test
     @Test
-    @Order(3) // This test will run third
+    @Order(3)  // This test will run third
     public void shouldReturnCarDetailedInfo() throws Exception {
         // Load the expected JSON from the file
         Path path = Paths.get(ResourceUtils.getFile("classpath:files/expected_car_detailed_info.json").toURI());
@@ -73,8 +77,8 @@ class CarControllerMvcTest {
                 .andExpect(content().json(expectedJson));
     }
 
-    // @Test
-    @Order(4) // This test will run fourth
+    @Test
+    @Order(4)  // This test will run fourth
     public void shouldReturnAllCars() throws Exception {
         // Load the expected JSON from the file
         Path path = Paths.get(ResourceUtils.getFile("classpath:files/expected_all_cars.json").toURI());
@@ -87,22 +91,22 @@ class CarControllerMvcTest {
                 .andExpect(content().json(expectedJson));
     }
 
-    // // Update Car Test
+    // Update Car Test
     @Test
-    @Order(5) // This test will run fifth
+    @Order(5)  // This test will run fifth
     public void shouldUpdateCar() throws Exception {
-        CarDto updatedCar = new CarDto(3, 2, "Model 3", 2020, new BigDecimal("5.55"), 3000);
+        CarDto updatedCar = new CarDto(3, 2, "Model 3", 2020,new BigDecimal("5.55"),3000);
         String json = new ObjectMapper().writeValueAsString(updatedCar);
 
         mockMvc.perform(put("/api/v1/car/{carId}", 1) // Replace ID with a valid car ID
-                .contentType("application/json")
-                .content(json))
+                        .contentType("application/json")
+                        .content(json))
                 .andExpect(status().isOk());
     }
 
-    // // Delete Car Test
+    // Delete Car Test
     @Test
-    @Order(6) // This test will run last
+    @Order(6)  // This test will run last
     public void shouldDeleteCar() throws Exception {
         mockMvc.perform(delete("/api/v1/car/{carId}", 6)) // Replace ID with a valid car ID
                 .andExpect(status().isOk());
