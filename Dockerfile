@@ -26,4 +26,4 @@ WORKDIR /app
 COPY --from=builder /app/build/libs/carportal-0.0.1-SNAPSHOT.jar app.jar
 
 # Start the app
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Xmx256m", "-Xms128m", "-jar", "app.jar"]

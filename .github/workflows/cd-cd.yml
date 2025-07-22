@@ -21,8 +21,8 @@ jobs:
                       sudo docker stop carportal_container || true
                       sudo docker rm carportal_container || true
                       sudo docker image rm carportal_image
-                      git fetch origin
-                      git reset --hard origin/main
+                      sudo git fetch origin
+                      sudo git reset --hard origin/main
                       sudo docker build -t carportal_image .
                       sudo docker system prune -af
                       sudo docker run -p 8080:8080 -d --name carportal_container carportal_image
