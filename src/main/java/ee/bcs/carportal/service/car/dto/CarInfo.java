@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class CarInfo {
+    private int id;
     private String make;
     private String modelName;
     private Integer releaseYear;
